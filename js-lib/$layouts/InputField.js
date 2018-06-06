@@ -6,9 +6,14 @@ const
 
 export default class InputField extends spocky.Layout {
 
+    static get Content() {
+        return [["div",{"class":["form-group ${{fullFieldName}}.divClass ","$validator.divClass"],"_data-spk-field":["{{formName}}:{{fieldInfo}}"]},["label",{"_show":["{{fullFieldName}}_Label"],"for":["{{fieldName}}"],"class":["${{fullFieldName}}_LabelClass"]},"${{fieldLabel}}"],["div",{"class":["${{fullFieldName}}_FieldClass"]},["input",{"_elem":["${{fullFieldName}}.field"],"type":["{{inputType}}"],"id":["{{fieldName}}"],"name":["{{fieldName}}"],"class":["form-control"],"placeholder":["${{fullFieldName}}.placeholder"]}],["p",{"_show":["validator.hasErrors"],"_repeat":["validator.errors:errorMessage"],"class":["error"]},"{{errorMessage}}"]]]];
+    }
+
+
     constructor()
     {
-        super([["div",{"class":["form-group {{field.divClass}} {{validator.divClass}}"]},["label",{"ab-show":["field.label"],"for":["{{field.name}}"],"class":["{{field.labelClass}}"]},"{{field.label}}"],["div",{"class":["{{field.fieldClass}}"]},["input",{"ab-elem":["field(field)"],"type":["{{field.inputType}}"],"id":["{{field.name}}"],"name":["{{field.name}}"],"class":["form-control"],"placeholder":["{{field.placeholder}}"]}],["p",{"ab-show":["validator.hasErrors"],"ab-repeat":["validator.errors:error_message"],"class":["error"]},"{{error_message}}"]]]]);
+        super(InputField.Content);
     }
 
 }
