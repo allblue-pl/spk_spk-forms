@@ -7,7 +7,7 @@ const
 export default class TextAreaField extends spocky.Layout {
 
     static get Content() {
-        return [["div",{"class":["form-group {{field.divClass}} {{validator.divClass}}"]},["label",{"ab-show":["field.label"],"for":["{{field.name}}"],"class":["{{field.labelClass}}"]},"{{field.label}}"],["div",{"class":["{{field.fieldClass}}"]},["textarea",{"ab-elem":["field(field)"],"placeholder":["{{field.placeholder}}"],"name":["{{field.name}}"],"id":["{{field.name}}"],"class":["form-control"],"rows":["3"]}],["p",{"ab-show":["validator.hasErrors"],"ab-repeat":["validator.errors:error_message"],"class":["error"]},"{{error_message}}"]]]];
+        return [["div",{"class":["form-group ${{fullFieldName}}.divClass ","$validator.divClass"],"_data-spk-field":["{{formName}}:{{fieldInfo}}"]},["label",{"_show":["{{fullFieldName}}_Label"],"for":["{{fieldName}}"],"class":["${{fullFieldName}}_LabelClass"]},"{{fieldLabel}}"],["div",{"class":["${{fullFieldName}}_FieldClass"]},["textarea",{"_elem":["{{fullFieldName}}_Field"],"id":["{{fieldName}}"],"name":["{{fieldName}}"],"placeholder":["{{fieldPlaceholder}}"],"class":["form-control"],"rows":["3"]}],["p",{"_show":["validator.hasErrors"],"_repeat":["validator.errors:errorMessage"],"class":["error"]},"{{errorMessage}}"]]]];
     }
 
 

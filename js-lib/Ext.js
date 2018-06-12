@@ -39,6 +39,8 @@ export default class Ext extends spocky.Ext
         spocky.Layout.Replace(layoutContent, '{{fullFieldName}}', fullFieldName);
         spocky.Layout.Replace(layoutContent, '{{fieldInfo}}', `${fieldInfo}`);
 
+        console.log(layoutContent);
+
         spocky.Layout.Replace(layoutContent, '{{fieldLabel}}', 
                 'label' in layoutNode.attribs ? layoutNode.attribs.label[0] : '');
         spocky.Layout.Replace(layoutContent, '{{fieldPlaceholder}}', 

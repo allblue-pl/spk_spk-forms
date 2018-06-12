@@ -1,18 +1,16 @@
 
-<div class="form-group {{field.divClass}} {{validator.divClass}}">
-    <label ab-show="field.label" for="{{field.name}}"
-            class="{{field.labelClass}}">
-        {{field.label}}
+<div class="form-group {{fullFieldName}}_DivClass $validator.divClass"
+        _data-spk-field="{{formName}}:{{fieldInfo}}">
+    <label _show="{{fullFieldName}}_Label" for="{{fieldName}}"
+            class="${{fullFieldName}}_LabelClass">
+        {{fieldLabel}}
     </label>
     <div class="textField {{field.fieldClass}}">
-        <p>
-            <span ab-elem="field(field)">
-            </span>
-        </p>
-        <p ab-show="validator.hasErrors"
-            ab-repeat="validator.errors:error_message"
+        <span _elem="{{fullFieldName}}_Field" />
+        <p _show="validator.hasErrors"
+            _repeat="validator.errors:errorMessage"
             class="error">
-            {{error_message}}
+            {{errorMessage}}
         </p>
     </div>
 </div>

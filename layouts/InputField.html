@@ -3,14 +3,14 @@
         _data-spk-field="{{formName}}:{{fieldInfo}}">
     <label _show="{{fullFieldName}}_Label" for="{{fieldName}}"
             class="${{fullFieldName}}_LabelClass">
-        ${{fieldLabel}}
+        {{fieldLabel}}
     </label>
     <div class="${{fullFieldName}}_FieldClass">
         <input
-            _elem="${{fullFieldName}}.field"
+            _elem="{{fullFieldName}}_Field"
             type="{{inputType}}" id="{{fieldName}}" name="{{fieldName}}"
             class="form-control"
-            placeholder="${{fullFieldName}}.placeholder" />
+            placeholder="{{fieldPlaceholder}}" />
         <p _show="validator.hasErrors"
             _repeat="validator.errors:errorMessage"
             class="error">

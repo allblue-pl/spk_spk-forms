@@ -4,6 +4,7 @@ const
     js0 = require('js0'),
     spocky = require('spocky'),
 
+    spkForms = require('.'),
     Field = require('./Field')
 ;
 
@@ -28,6 +29,32 @@ export default class Form
             let fieldInfo = JSON.parse(field.substring(separatorIndex + 1));
 
             this._fields[fieldInfo.name] = new Field(layout, fieldInfo);
+        }
+    }
+
+    getValues()
+    {
+        let values = {};
+
+        for (let fieldName in this._fields)
+            values[fieldName] = this._fields[fieldName].value;
+
+        return values;
+    }
+
+    setValues(values)
+    {
+        js0.args(arguments, 'object');
+
+        for (let fieldName in values) {
+            if (spkForms.debug) {
+                if (!(fieldName in this._fields)) {
+                    console.warn(`Field '${fieldName}' does not exist. Cannot set value.`);
+                    continue;
+                }
+            }
+
+            this._fields[fieldName].value = values[fieldName];
         }
     }
 
