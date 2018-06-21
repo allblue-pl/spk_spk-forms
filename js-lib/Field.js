@@ -8,6 +8,10 @@ export default class Field
         return this._layout.$elems[`${this._fullName}_Field`];
     }
 
+    get fullName() {
+        return this._fullName;
+    }
+
     get value() {
         var type = this._info.type;
 
@@ -39,7 +43,7 @@ export default class Field
             // }
 
             // return '';
-        } else if (type === 'input' && this._info['input-type'] === 'checkbox')
+        } else if (type === 'Input' && this._info['input-type'] === 'checkbox')
             return this.elem.checked ? 1 : 0;
 
         return this.elem.value;
@@ -66,7 +70,7 @@ export default class Field
                     return;
                 }
             }
-        } else if (this._info.type === 'input') {
+        } else if (this._info.type === 'Input') {
             if (this._info['input-type'] === 'checkbox')
                 this.elem.checked = value === 'true';
             else
@@ -105,7 +109,77 @@ export default class Field
         let lFields = {};
         lFields[`${this._fullName}_Label`] = 'label' in this._info ? this._info.label : '';        
 
+        this.init();
+
         this._layout.$fields = lFields;
+    }
+
+    clearValidator()
+    {
+        this._layout.$fields[`${this._fullName}_Validator`] = {
+            errors: [],
+            divClass: '',
+        }
+    }
+
+    init()
+    {
+        var onChange = (evt) => {
+            this.clearValidator();
+        };
+
+        if (this._info.type === 'date' || this._info.type === 'dateTime' ||
+                this._info.type === 'time') {
+            var format;
+            if (this._info.type === 'date')
+                format = SPK.$eText.get('SPK:date_Format');
+            else if (this._info.type === 'dateTime')
+                format = SPK.$eText.get('SPK:dateTime_Format');
+            else if (this._info.type === 'time')
+                format = SPK.$eText.get('SPK:time_Format');
+
+            /* Initialize `date` field. */
+            $(this.elem)
+                .datetimepicker( {
+                    format: format,
+                    showTodayButton: this._info.type !== 'time',
+                    useCurrent: false,
+                    locale: SPK.$eLang.tag.substring(0, 2)
+                })
+                .on('dp.show', function(evt) {
+                    if($(this).data("DateTimePicker").date() === null)
+                        $(this).data("DateTimePicker").date(moment());
+                })
+                .on('dp.hide', function(evt) {
+                    this.elem.setAttribute('value', this.value);
+                    this.clearValidator();
+                    this.blur();
+                });
+        } else if (this._info.type === 'file') {
+            this.fields.accept = '';
+            if (this.attrExists('accept'))
+                this.fields.accept = this.getAttr('accept');
+        } else if (this._info.type === 'radio') {
+            this.$elems.each('field', function(elem) {
+                elem.addEventListener('change', on_change);
+            });
+        } else if (this._info.type === 'select' || this._info.type === 'file') {
+            this.elem.addEventListener('change', on_change);
+        } else if (this._info.type === 'Input' || this._info.type === 'TextArea') {
+            this.elem.addEventListener('change', onChange);
+            this.elem.addEventListener('keyup', onChange);
+
+            // this.elem.setAttribute('value', '');
+        }
+    }
+
+    setValidator(validator)
+    {
+        this._layout.$fields[`${this._fullName}_Validator`] = {
+            errors: 'errors' in validator ? validator.errors : [],
+            divClass: validator.state === 'error' ?
+                    'has-error' : '',
+        }
     }
 
 }

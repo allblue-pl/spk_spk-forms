@@ -11,6 +11,11 @@ const
 export default class Form
 {
 
+    get fields() {
+        return this._fields;
+    }
+
+
     constructor(layout, formName)
     {
         js0.args(arguments, spocky.Layout, 'string');
@@ -40,6 +45,22 @@ export default class Form
             values[fieldName] = this._fields[fieldName].value;
 
         return values;
+    }
+
+    setValidator(validator)
+    {
+        for (let fieldName in this._fields)
+            this._fields[fieldName].clearValidator();
+
+        for (let fieldName in validator.fields) {
+            if (!(fieldName in this._fields)) {
+                if (spkForms.debug)
+                    console.warn(`Field '${fieldName}' does not exist in form.`)
+                continue;
+            }
+
+            this._fields[fieldName].setValidator(validator.fields[fieldName]);
+        }
     }
 
     setValues(values)

@@ -8,10 +8,10 @@
     </label>
     <div class="${{fullFieldName}}_FieldClass">
         <textarea _elem="{{fullFieldName}}_Field"
-                id="{{fieldName}}" name="{{fieldName}}"
+                id="{{fullFieldName}}" name="{{fieldName}}"
                 placeholder="{{fieldPlaceholder}}"
                 class="form-control"
-                rows="3" />
+                rows="{{fieldRows}}" />
         <p _show="validator.hasErrors" _repeat="validator.errors:errorMessage"
                 class="error">
             {{errorMessage}}

@@ -43,6 +43,8 @@ export default class Ext extends spocky.Ext
                 'label' in layoutNode.attribs ? layoutNode.attribs.label[0] : '');
         spocky.Layout.Replace(layoutContent, '{{fieldPlaceholder}}', 
                 'placeholder' in layoutNode.attribs ? layoutNode.attribs.placeholder[0] : '');
+        spocky.Layout.Replace(layoutContent, '{{fieldRows}}', 
+                 'rows' in layoutNode.attribs ? layoutNode.attribs.rows[0] : '3');
 
         layoutNode.content = [];
         for (let newLayoutNode of layoutContent)
@@ -68,8 +70,7 @@ export default class Ext extends spocky.Ext
 
     _getFieldLayoutContent(fieldName)
     {
-        let layoutName = fieldName[0].toUpperCase() + fieldName.substring(1) + 
-                'Field';
+        let layoutName = `${fieldName}Field`;
 
         if (!(layoutName in $layouts))
             throw new Error(`Field type '${fieldName}' does not exist.`);
