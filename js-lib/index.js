@@ -14,3 +14,8 @@ export let debug = false;
 export function setDebug(debug) {
     exports.debug = debug;
 }
+
+export let lang = 'en';
+export function setLang(lang) {
+    exports.lang = lang;
+}

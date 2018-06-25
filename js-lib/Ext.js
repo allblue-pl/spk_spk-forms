@@ -72,6 +72,9 @@ export default class Ext extends spocky.Ext
     {
         let layoutName = `${fieldName}Field`;
 
+        if (layoutName === 'DateTimeField')
+            layoutName = 'DateField';
+
         if (!(layoutName in $layouts))
             throw new Error(`Field type '${fieldName}' does not exist.`);
 

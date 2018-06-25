@@ -1,10 +1,20 @@
 'use strict';
 
+const
+    abDate = require('ab-date'),
+    js0 = require('js0'),
+
+    spkForms = require('.')
+;
+
 
 export default class Field
 {
 
     get elem() {
+        js0.assert(`${this._fullName}_Field` in this._layout.$elems, 
+                `Cannot find 'elem' in field layout.`);
+
         return this._layout.$elems[`${this._fullName}_Field`];
     }
 
@@ -19,15 +29,15 @@ export default class Field
         if (type === 'date') {
             var value = this.elem.value;
 
-            return value === '' ? null : SPK.$abDate.date_StrToTime(value);
-        } else if (type === 'dateTime') {
+            return value === '' ? null : abDate.date_StrToTime(value);
+        } else if (type === 'DateTime') {
             var value = this.elem.value;
 
-            return value === '' ? null : SPK.$abDate.dateTime_StrToTime(value);
+            return value === '' ? null : abDate.dateTime_StrToTime(value);
         } else if (type === 'time') {
             var value = this.elem.value;
 
-            return value === '' ? null : SPK.$abDate.time_StrToTime(value);
+            return value === '' ? null : abDate.time_StrToTime(value);
         } else if (type === 'file') {
             var file = this.elem.files[0];
             return typeof file === 'undefined' ? null : file;
@@ -54,10 +64,10 @@ export default class Field
 
         value = value + '';
 
-        if (this._info.type === 'date' || this._info.type === 'dateTime' ||
+        if (this._info.type === 'date' || this._info.type === 'DateTime' ||
                 this._info.type === 'time') {
             var m = value === '' ? '' : moment(value * 1000)
-                    .utcOffset(SPK.$abDate.utcOffset);
+                    .utcOffset(abDate.utcOffset);
             $(this.elem).data('DateTimePicker').date(m);
         } else if (this._info.type === 'file') {
             /* Do nothing. */
@@ -106,12 +116,12 @@ export default class Field
 
         this._fullName = `spkForms_${fieldInfo.form}_${fieldInfo.name}`;
 
-        let lFields = {};
-        lFields[`${this._fullName}_Label`] = 'label' in this._info ? this._info.label : '';        
+        let fields = {};
+        fields[`${this._fullName}_Label`] = 'label' in this._info ? this._info.label : '';        
 
         this.init();
 
-        this._layout.$fields = lFields;
+        this._layout.$fields = fields;
     }
 
     clearValidator()
@@ -128,32 +138,32 @@ export default class Field
             this.clearValidator();
         };
 
-        if (this._info.type === 'date' || this._info.type === 'dateTime' ||
-                this._info.type === 'time') {
+        if (this._info.type === 'Date' || this._info.type === 'DateTime' ||
+                this._info.type === 'Time') {
             var format;
-            if (this._info.type === 'date')
-                format = SPK.$eText.get('SPK:date_Format');
-            else if (this._info.type === 'dateTime')
-                format = SPK.$eText.get('SPK:dateTime_Format');
-            else if (this._info.type === 'time')
-                format = SPK.$eText.get('SPK:time_Format');
+            if (this._info.type === 'Date')
+                format = abDate.date_Format;
+            else if (this._info.type === 'DateTime')
+                format = abDate.dateTime_Format;
+            else if (this._info.type === 'Time')
+                format = abDate.time_Format;
 
             /* Initialize `date` field. */
             $(this.elem)
                 .datetimepicker( {
-                    format: format,
-                    showTodayButton: this._info.type !== 'time',
+                    // format: format,
+                    showTodayButton: this._info.type !== 'Time',
                     useCurrent: false,
-                    locale: SPK.$eLang.tag.substring(0, 2)
+                    locale: spkForms.lang,
                 })
-                .on('dp.show', function(evt) {
-                    if($(this).data("DateTimePicker").date() === null)
-                        $(this).data("DateTimePicker").date(moment());
+                .on('dp.show', (evt) => {
+                    if($(this.elem).data("DateTimePicker").date() === null)
+                        $(this.elem).data("DateTimePicker").date(moment());
                 })
-                .on('dp.hide', function(evt) {
-                    this.elem.setAttribute('value', this.value);
+                .on('dp.hide', (evt) => {
+                    this.elem.setAttribute('value', this.elem.value);
                     this.clearValidator();
-                    this.blur();
+                    this.elem.blur();
                 });
         } else if (this._info.type === 'file') {
             this.fields.accept = '';
