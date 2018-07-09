@@ -12,9 +12,9 @@
                 placeholder="{{fieldPlaceholder}}"
                 class="form-control"
                 rows="{{fieldRows}}" />
-        <p _show="validator.hasErrors" _repeat="validator.errors:errorMessage"
+        <p _repeat="{{fullFieldName}}_Validator.errors:errorMessage"
                 class="error">
-            {{errorMessage}}
+            $errorMessage
         </p>
     </div>
 </div>
