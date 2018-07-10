@@ -1,21 +1,53 @@
 'use strict';
 
 const
+    js0 = require('js0'),
     spocky = require('spocky'),
 
     $layouts = require('./$layouts')
 ;
 
-export const Ext = require('./Ext');
-export const Field = require('./Field');
-export const Form = require('./Form');
+class spkForms_Class
+{
 
-export let debug = false;
-export function setDebug(debug) {
-    exports.debug = debug;
-}
+    get Ext() {
+        return require('./Ext');
+    }
 
-export let lang = 'en';
-export function setLang(lang) {
-    exports.lang = lang;
+    get Field() {
+        return require('./Field');
+    }
+
+    get Form() {
+        return require('./Form');
+    }
+
+    get debug() {
+        return this._debug;
+    }
+
+    get lang() {
+        return this._lang;
+    }
+
+    constructor()
+    {
+        
+    }
+
+    setDebug(debug)
+    {
+        js0.args(arguments, 'boolean');
+
+        this._debug = debug;
+    }
+
+    setLang(lang)
+    {
+        js0.args(arguments, 'string');
+
+        this._lang = lang;
+    }
+
 }
+export default spkForms = new spkForms_Class();

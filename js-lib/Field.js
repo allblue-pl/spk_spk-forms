@@ -26,18 +26,18 @@ export default class Field
         var type = this._info.type;
 
         /* Date Time */
-        if (type === 'date') {
+        if (type === 'Date') {
             var value = this.elem.value;
 
-            return value === '' ? null : abDate.date_StrToTime(value);
+            return value === '' ? null : abDate.strToTime_Date(value);
         } else if (type === 'DateTime') {
             var value = this.elem.value;
 
-            return value === '' ? null : abDate.dateTime_StrToTime(value);
+            return value === '' ? null : abDate.strToTime_DateTime(value);
         } else if (type === 'time') {
             var value = this.elem.value;
 
-            return value === '' ? null : abDate.time_StrToTime(value);
+            return value === '' ? null : abDate.strToTime_Time(value);
         } else if (type === 'file') {
             var file = this.elem.files[0];
             return typeof file === 'undefined' ? null : file;
@@ -64,7 +64,7 @@ export default class Field
 
         value = value + '';
 
-        if (this._info.type === 'date' || this._info.type === 'DateTime' ||
+        if (this._info.type === 'Date' || this._info.type === 'DateTime' ||
                 this._info.type === 'time') {
             var m = value === '' ? '' : moment(value * 1000)
                     .utcOffset(abDate.utcOffset);
@@ -142,16 +142,16 @@ export default class Field
                 this._info.type === 'Time') {
             var format;
             if (this._info.type === 'Date')
-                format = abDate.date_Format;
+                format = 'L';
             else if (this._info.type === 'DateTime')
-                format = abDate.dateTime_Format;
+                format = 'LT';
             else if (this._info.type === 'Time')
-                format = abDate.time_Format;
+                format = 'T';
 
             /* Initialize `date` field. */
             $(this.elem)
                 .datetimepicker( {
-                    // format: format,
+                    format: format,
                     showTodayButton: this._info.type !== 'Time',
                     useCurrent: false,
                     locale: spkForms.lang,

@@ -46,6 +46,13 @@ export default class Ext extends spocky.Ext
         spocky.Layout.Replace(layoutContent, '{{fieldRows}}', 
                  'rows' in layoutNode.attribs ? layoutNode.attribs.rows[0] : '3');
 
+        /* Special */
+        if (layoutNode.attribs.type[0] === 'Input') {
+            spocky.Layout.Replace(layoutContent, '{{inputType}}',
+                    'input-type' in layoutNode.attribs ? 
+                    layoutNode.attribs['input-type'][0] : 'text');
+        }
+
         layoutNode.content = [];
         for (let newLayoutNode of layoutContent)
             layoutNode.content.push(newLayoutNode);
