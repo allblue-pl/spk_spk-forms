@@ -63,16 +63,18 @@ export default class Form
         }
     }
 
-    setValues(values)
+    setValues(values, ignoreNotExisting = false)
     {
-        js0.args(arguments, 'object');
+        js0.args(arguments, 'object', [ 'boolean', js0.Default ]);
 
         for (let fieldName in values) {
-            if (spkForms.debug) {
-                if (!(fieldName in this._fields)) {
-                    console.warn(`Field '${fieldName}' does not exist. Cannot set value.`);
-                    continue;
+            if (!(fieldName in this._fields)) {
+                if (spkForms.debug && !ignoreNotExisting) {
+                    console.warn(`Field '${fieldName}' does not exist. Cannot set value.`, 
+                            new Error());
                 }
+
+                continue;
             }
 
             this._fields[fieldName].value = values[fieldName];

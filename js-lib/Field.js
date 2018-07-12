@@ -144,9 +144,9 @@ export default class Field
             if (this._info.type === 'Date')
                 format = 'L';
             else if (this._info.type === 'DateTime')
-                format = 'LT';
+                format = 'L LT';
             else if (this._info.type === 'Time')
-                format = 'T';
+                format = 'LT';
 
             /* Initialize `date` field. */
             $(this.elem)
