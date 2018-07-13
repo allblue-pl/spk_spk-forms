@@ -1,5 +1,6 @@
 'use strict';
 
+export const CheckboxField = require('./CheckboxField');
 export const DateField = require('./DateField');
 export const FileField = require('./FileField');
 export const HiddenField = require('./HiddenField');
