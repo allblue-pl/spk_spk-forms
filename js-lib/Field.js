@@ -81,9 +81,12 @@ export default class Field
                 }
             }
         } else if (this._info.type === 'Input') {
-            if (this._info['input-type'] === 'checkbox')
+            if (this._info['input-type'] === 'checkbox') {
                 this.elem.checked = value === 'true';
-            else
+                let event = document.createEvent("HTMLEvents");
+                event.initEvent("change", true, true);
+                this.elem.dispatchEvent(event);
+            } else
                 this.elem.value = value;
         } else if (this._info.type === 'select') {
             var elem = this.elem;
