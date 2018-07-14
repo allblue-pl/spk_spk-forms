@@ -23,38 +23,40 @@ export default class Field
     }
 
     get value() {
-        var type = this._info.type;
+        let type = this._info.type;
 
         /* Date Time */
-        if (type === 'Date') {
-            var value = this.elem.value;
+        if (type === 'Checkbox') {
+            return this.elem.checked ? true : false;
+        } else if (type === 'Date') {
+            let value = this.elem.value;
 
             return value === '' ? null : abDate.strToTime_Date(value);
         } else if (type === 'DateTime') {
-            var value = this.elem.value;
+            let value = this.elem.value;
 
             return value === '' ? null : abDate.strToTime_DateTime(value);
-        } else if (type === 'time') {
-            var value = this.elem.value;
+        } else if (type === 'Time') {
+            let value = this.elem.value;
 
             return value === '' ? null : abDate.strToTime_Time(value);
         } else if (type === 'file') {
-            var file = this.elem.files[0];
+            let file = this.elem.files[0];
             return typeof file === 'undefined' ? null : file;
         } else if (type === 'text')
             return null;
         else if (type === 'radio') {
             console.log('Radio not implemented.');
-            // var options = this._private.$elems.htmlElems('field');
+            // let options = this._private.$elems.htmlElems('field');
 
-            // for (var i = 0; i < options.length; i++) {
+            // for (let i = 0; i < options.length; i++) {
             //     if (options[i].checked)
             //         return options[i].getAttribute('value');
             // }
 
             // return '';
         } else if (type === 'Input' && this._info['input-type'] === 'checkbox')
-            return this.elem.checked ? 1 : 0;
+            return this.elem.checked ? true : false;
 
         return this.elem.value;
     }
@@ -62,19 +64,22 @@ export default class Field
         if (value === null)
             value = '';
 
-        value = value + '';
-
-        if (this._info.type === 'Date' || this._info.type === 'DateTime' ||
+        if (this._info.type === 'Checkbox') {
+            this.elem.checked = value ? true : false;
+            let event = document.createEvent("HTMLEvents");
+            event.initEvent("change", true, true);
+            this.elem.dispatchEvent(event);
+        } else if (this._info.type === 'Date' || this._info.type === 'DateTime' ||
                 this._info.type === 'time') {
-            var m = value === '' ? '' : moment(value * 1000)
+            let m = value === '' ? '' : moment(value * 1000)
                     .utcOffset(abDate.utcOffset);
             $(this.elem).data('DateTimePicker').date(m);
         } else if (this._info.type === 'file') {
             /* Do nothing. */
         } else if (this._info.type === 'radio') {
-            var options = this._private.$elems.htmlElems('field');
+            let options = this._private.$elems.htmlElems('field');
 
-            for (var i = 0; i < options.length; i++) {
+            for (let i = 0; i < options.length; i++) {
                 if (options[i].getAttribute('value') === value) {
                     options[i].checked = true;
                     return;
@@ -88,13 +93,19 @@ export default class Field
                 this.elem.dispatchEvent(event);
             } else
                 this.elem.value = value;
-        } else if (this._info.type === 'select') {
-            var elem = this.elem;
+        } else if (this._info.type === 'Select') {
+            let elem = this.elem;
 
-            var selected = false;
-            for (var i = 0; i < elem.options.length; i++) {
-                if (elem.options[i].value === value + '') {
-                    elem.options[i].selected = true;
+            let selected = false;
+            let options = this.elem.options;
+            for (let i = 0; i < options.length; i++) {
+                if (options[i].value === value + '') {
+                    options[i].selected = true;
+
+                    let event = document.createEvent("HTMLEvents");
+                    event.initEvent("change", true, true);
+                    this.elem.dispatchEvent(event);
+
                     selected = true;
                     break;
                 }
@@ -135,15 +146,23 @@ export default class Field
         }
     }
 
+    field(fieldName, ...args)
+    {
+        if (args.length === 0)
+            return this._layout.$fields[`${this.fullName}_${fieldName}`];
+        else
+            this._layout.$fields[`${this.fullName}_${fieldName}`] = args[0];
+    }
+
     init()
     {
-        var onChange = (evt) => {
+        let onChange = (evt) => {
             this.clearValidator();
         };
 
         if (this._info.type === 'Date' || this._info.type === 'DateTime' ||
                 this._info.type === 'Time') {
-            var format;
+            let format;
             if (this._info.type === 'Date')
                 format = 'L';
             else if (this._info.type === 'DateTime')
