@@ -10,15 +10,15 @@
             <input
                 _elem="{{fullFieldName}}_Field"
                 type="text" id="{{fullFieldName}}" name="{{fieldName}}"
-                class="form-control datetimepicker"
+                class="form-control datetimepicker ${{fullFieldName}}_Validator.fieldClass"
                 placeholder="{{fieldPlaceholder}}" />
             <span class="input-group-append">
                 <span _elem="{{fullFieldName}}_Calendar" class="input-group-text fa fa-calendar"></span>
             </span>
+            <p _repeat="{{fullFieldName}}_Validator.errors:errorMessage"
+                    class="invalid-feedback">
+                $errorMessage
+            </p>
         </div>
-        <p _show="validator.hasErrors"
-                _repeat="validator.errors:error_message" class="error">
-            {{error_message}}
-        </p>
     </div>
 </div>

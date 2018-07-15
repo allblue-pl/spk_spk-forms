@@ -9,10 +9,10 @@
         <input
                 _elem="{{fullFieldName}}_Field"
                 type="{{inputType}}" id="{{fullFieldName}}" name="{{fieldName}}"
-                class="form-control"
+                class="form-control ${{fullFieldName}}_Validator.fieldClass"
                 placeholder="{{fieldPlaceholder}}" />
         <p _repeat="{{fullFieldName}}_Validator.errors:errorMessage"
-                class="error">
+                class="invalid-feedback">
             $errorMessage
         </p>
     </div>

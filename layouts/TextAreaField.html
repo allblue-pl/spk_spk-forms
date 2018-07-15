@@ -10,10 +10,10 @@
         <textarea _elem="{{fullFieldName}}_Field"
                 id="{{fullFieldName}}" name="{{fieldName}}"
                 placeholder="{{fieldPlaceholder}}"
-                class="form-control"
+                class="form-control ${{fullFieldName}}_Validator.fieldClass"
                 rows="{{fieldRows}}" />
         <p _repeat="{{fullFieldName}}_Validator.errors:errorMessage"
-                class="error">
+                class="invalid-feedback">
             $errorMessage
         </p>
     </div>

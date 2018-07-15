@@ -142,6 +142,7 @@ export default class Field
     {
         this._layout.$fields[`${this._fullName}_Validator`] = {
             errors: [],
+            fieldClass: '',
             divClass: '',
         }
     }
@@ -209,8 +210,8 @@ export default class Field
     {
         this._layout.$fields[`${this._fullName}_Validator`] = {
             errors: 'errors' in validator ? validator.errors : [],
-            divClass: validator.state === 'error' ?
-                    'has-error' : '',
+            fieldClass: validator.valid ? '' : 'is-invalid',
+            divClass: '',
         }
     }
 
