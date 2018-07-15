@@ -40,11 +40,11 @@ export default class Ext extends spocky.Ext
         spocky.Layout.Replace(layoutContent, '{{fieldInfo}}', `${fieldInfo}`);
 
         spocky.Layout.Replace(layoutContent, '{{fieldLabel}}', 
-                'label' in layoutNode.attribs ? layoutNode.attribs.label[0] : '');
+                'label' in layoutNode.attribs ? layoutNode.attribs.label.join('') : '');
         spocky.Layout.Replace(layoutContent, '{{fieldPlaceholder}}', 
-                'placeholder' in layoutNode.attribs ? layoutNode.attribs.placeholder[0] : '');
+                'placeholder' in layoutNode.attribs ? layoutNode.attribs.placeholder.join('') : '');
         spocky.Layout.Replace(layoutContent, '{{fieldRows}}', 
-                 'rows' in layoutNode.attribs ? layoutNode.attribs.rows[0] : '3');
+                 'rows' in layoutNode.attribs ? layoutNode.attribs.rows.join('') : '3');
 
         /* Special */
         if (layoutNode.attribs.type[0] === 'Input') {
