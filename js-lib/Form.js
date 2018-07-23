@@ -20,6 +20,9 @@ export default class Form
     {
         js0.args(arguments, spocky.Layout, 'string');
 
+        if (!spkForms.extInitialized)
+            throw new Error('Ext not initialized.');
+
         if (!('spk-field' in layout.$data))
             throw new Error('No spk-fields in layout.');
 

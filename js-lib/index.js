@@ -22,6 +22,7 @@ class spkForms_Class
         return require('./Form');
     }
 
+
     get debug() {
         return this._debug;
     }
@@ -32,7 +33,7 @@ class spkForms_Class
 
     constructor()
     {
-        
+        this.extInitialized = false;
     }
 
     setDebug(debug)
