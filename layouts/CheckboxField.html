@@ -8,7 +8,7 @@
             class="form-check-input"
             placeholder="{{fieldPlaceholder}}" />
     <label _show="{{fullFieldName}}_Label" for="{{fullFieldName}}"
-            class="form-check-label ${{fullFieldName}}_LabelClass">
+            class="form-check-label {{labelClass}}">
         {{fieldLabel}}
     </label>
     <p _repeat="{{fullFieldName}}_Validator.errors:errorMessage"

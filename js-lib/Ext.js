@@ -106,7 +106,17 @@ export default class Ext extends spocky.Ext
         if (layoutNode.type !== 'spk-form-message')
             return;
 
-        
+        let layoutContent = $layouts.Message.Content;
+
+        let formName = layoutNode.attribs.form[0];
+        let fullFormName = `spkForms_${formName}`;
+
+        spocky.Layout.Replace(layoutContent, '{{formName}}', formName);
+        spocky.Layout.Replace(layoutContent, '{{fullFormName}}', fullFormName);
+
+        layoutNode.content = [];
+        for (let newLayoutNode of layoutContent)
+            layoutNode.content.push(newLayoutNode);
     }
 
 }

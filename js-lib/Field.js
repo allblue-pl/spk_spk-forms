@@ -138,6 +138,12 @@ export default class Field
         this._layout.$fields = fields;
     }
 
+    clear()
+    {
+        this.value = '';
+        this.clearValidator();
+    }
+
     clearValidator()
     {
         this._layout.$fields[`${this._fullName}_Validator`] = {

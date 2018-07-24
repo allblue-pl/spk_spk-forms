@@ -26,6 +26,10 @@ export default class Form
         if (!('spk-field' in layout.$data))
             throw new Error('No spk-fields in layout.');
 
+        this.l = layout;
+        this.formName = formName;
+        this.fullFormName = `spkForms_${formName}`;
+
         this._fields = {};
         for (let field of layout.$data['spk-field']) {
             let separatorIndex = field.indexOf(':');
@@ -40,6 +44,38 @@ export default class Form
         }
     }
 
+    clear()
+    {
+        for (let fieldName in this._fields)
+            this._fields[fieldName].clear();
+
+        this.clearValidator();
+        this.clearMessage();
+    }
+
+    clearMessage()
+    {
+        let messageFound = false;
+        if ('spk-forms-message' in this.l.$data) {
+            if (this.l.$data['spk-forms-message'].includes(this.formName))
+                messageFound = true;
+        }
+        if (!messageFound)
+            return;
+
+        this.l.$fields = {
+            [`${this.fullFormName}_Message_Class`]: '',
+            [`${this.fullFormName}_Message`]: '',
+            [`${this.fullFormName}_Message_Show`]: false,
+        };
+    }
+
+    clearValidator()
+    {
+        for (let fieldName in this._fields)
+        this._fields[fieldName].clearValidator();
+    }
+
     getValues()
     {
         let values = {};
@@ -48,6 +84,33 @@ export default class Form
             values[fieldName] = this._fields[fieldName].value;
 
         return values;
+    }
+
+    setMessage(message, messageClass)
+    {
+        let messageFound = false;
+        if ('spk-forms-message' in this.l.$data) {
+            if (this.l.$data['spk-forms-message'].includes(this.formName))
+                messageFound = true;
+        }
+        if (!messageFound)
+            throw new Error(`Message not found in form '${this.formName}'.`);
+
+        this.l.$fields = {
+            [`${this.fullFormName}_Message_Class`]: messageClass,
+            [`${this.fullFormName}_Message`]: message,
+            [`${this.fullFormName}_Message_Show`]: true,
+        };
+    }
+
+    setMessage_Error(message)
+    {
+        this.setMessage(message, 'alert-danger');
+    }
+
+    setMessage_Success(message)
+    {
+        this.setMessage(message, 'alert-success');
     }
 
     setValidator(validator)
