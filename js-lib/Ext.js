@@ -85,6 +85,8 @@ export default class Ext extends spocky.Ext
                 'label-class' in layoutNode.attribs ? layoutNode.attribs['label-class'].join('') : '');
         spocky.Layout.Replace(layoutContent, '{{fieldClass}}', 
                 'field-class' in layoutNode.attribs ? layoutNode.attribs['field-class'].join('') : '');
+        spocky.Layout.Replace(layoutContent, '{{rowClass}}', 
+                'label-class' in layoutNode.attribs ? 'row' : '');
 
         spocky.Layout.Replace(layoutContent, '{{fieldRows}}', 
                  'rows' in layoutNode.attribs ? layoutNode.attribs.rows.join('') : '3');

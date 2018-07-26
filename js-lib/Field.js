@@ -61,9 +61,6 @@ export default class Field
         return this.elem.value;
     }
     set value(value) {
-        if (value === null)
-            value = '';
-
         if (this._info.type === 'Checkbox') {
             this.elem.checked = value ? true : false;
             let event = document.createEvent("HTMLEvents");
