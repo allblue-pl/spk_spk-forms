@@ -66,7 +66,7 @@ export default class Ext extends spocky.Ext
 
         let formName = layoutNode.attribs.form[0];
         let fieldName = layoutNode.attribs.name[0];
-        let fullFieldName = `spkForms_${formName}_${fieldName}`;
+        let fullFieldName = `spkForms_${formName}_Fields_${fieldName}`;
         let fieldInfo = this._getFieldInfo(layoutNode);
 
         let layoutContent = this._getFieldLayoutContent(layoutNode.attribs.type[0]);

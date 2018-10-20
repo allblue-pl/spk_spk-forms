@@ -125,7 +125,7 @@ export default class Field
         this._layout = layout;
         this._info = fieldInfo;
 
-        this._fullName = `spkForms_${fieldInfo.form}_${fieldInfo.name}`;
+        this._fullName = `spkForms_${fieldInfo.form}_Fields_${fieldInfo.name}`;
 
         let fields = {};
         fields[`${this._fullName}_Label`] = 'label' in this._info ? this._info.label : '';        
