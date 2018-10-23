@@ -164,7 +164,10 @@ export default class Field
             this.clearValidator();
         };
 
-        if (this._info.type === 'Date' || this._info.type === 'DateTime' ||
+        if (this._info.type === 'Checkbox') {
+            this.elem.addEventListener('change', onChange);
+            this.elem.addEventListener('keyup', onChange);
+        } else if (this._info.type === 'Date' || this._info.type === 'DateTime' ||
                 this._info.type === 'Time') {
             let format;
             if (this._info.type === 'Date')
@@ -207,6 +210,16 @@ export default class Field
 
             // this.elem.setAttribute('value', '');
         }
+    }
+
+    setDisabled(disabled)
+    {
+        js0.args(arguments, 'boolean');
+
+        if (disabled)
+            this.elem.setAttribute('disabled', '');
+        else
+            this.elem.removeAttribute('disabled');
     }
 
     setValidator(validator)

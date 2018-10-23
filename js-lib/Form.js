@@ -86,6 +86,14 @@ export default class Form
         return values;
     }
 
+    setDisabled(disabled)
+    {
+        js0.args(arguments, 'boolean');
+
+        for (let fieldName in this._fields)
+            this._fields[fieldName].setDisabled(disabled);
+    }
+
     setMessage(message, messageClass)
     {
         let messageFound = false;
