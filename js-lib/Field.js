@@ -40,7 +40,7 @@ export default class Field
             let value = this.elem.value;
 
             return value === '' ? null : abDate.strToTime_Time(value);
-        } else if (type === 'file') {
+        } else if (type === 'File') {
             let file = this.elem.files[0];
             return typeof file === 'undefined' ? null : file;
         } else if (type === 'text')
@@ -67,13 +67,13 @@ export default class Field
             event.initEvent("change", true, true);
             this.elem.dispatchEvent(event);
         } else if (this._info.type === 'Date' || this._info.type === 'DateTime' ||
-                this._info.type === 'time') {
+                this._info.type === 'Time') {
             let m = value === '' ? '' : moment(value * 1000)
                     .utcOffset(abDate.utcOffset);
             $(this.elem).data('DateTimePicker').date(m);
-        } else if (this._info.type === 'file') {
+        } else if (this._info.type === 'File') {
             /* Do nothing. */
-        } else if (this._info.type === 'radio') {
+        } else if (this._info.type === 'Radio') {
             let options = this._private.$elems.htmlElems('field');
 
             for (let i = 0; i < options.length; i++) {

@@ -7,7 +7,7 @@ const
 export default class FileField extends spocky.Layout {
 
     static get Content() {
-        return [["div",{"class":["form-group {{field.divClass}} {{validator.divClass}}"]},["label",{"ab-show":["field.label"],"for":["{{field.name}}"],"class":["{{field.labelClass}}"]},"{{field.label}}"],["div",{"class":["{{field.fieldClass}}"]},["input",{"ab-elem":["field(field)"],"type":["file"],"id":["{{field.name}}"],"name":["{{field.name}}"],"class":["form-control"]}],["p",{"ab-show":["validator.hasErrors"],"ab-repeat":["validator.errors:error_message"],"class":["error"]},"{{error_message}}"]]]];
+        return [["div",{"class":["form-group {{divClass}} {{fullFieldName}}_Validator.divClass"],"_data-spk-field":["{{formName}}:{{fieldInfo}}"]},["label",{"_show":["{{fullFieldName}}_Label"],"for":["{{fullFieldName}}"],"class":["{{labelClass}}"]},"{{fieldLabel}}"],["div",{"class":["{{field.fieldClass}}"]},["input",{"_elem":["{{fullFieldName}}_Field"],"type":["file"],"accept":["${{fullFieldName}}_Accept"],"id":["{{fullFieldName}}"],"name":["{{fieldName}}"],"class":["form-control ${{fullFieldName}}_Validator.fieldClass"]}],["p",{"_repeat":["{{fullFieldName}}_Validator.errors:errorMessage"],"class":["invalid-feedback"]},"$errorMessage"]]]];
     }
 
 
