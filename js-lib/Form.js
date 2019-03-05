@@ -23,14 +23,17 @@ export default class Form
         if (!spkForms.extInitialized)
             throw new Error('Ext not initialized.');
 
-        if (!('spk-field' in layout.$data))
-            throw new Error('No spk-fields in layout.');
-
         this.l = layout;
         this.formName = formName;
         this.fullFormName = `spkForms_${formName}`;
 
         this._fields = {};
+
+        if (!('spk-field' in layout.$data) && spocky.Debug) {
+            console.warn('No spk-fields in layout.', new Error());
+            return;
+        }
+
         for (let field of layout.$data['spk-field']) {
             let separatorIndex = field.indexOf(':');
             
@@ -80,8 +83,12 @@ export default class Form
     {
         let values = {};
 
-        for (let fieldName in this._fields)
+        for (let fieldName in this._fields) {
+            if (this._fields[fieldName].info.type === 'Text')
+                continue;
+
             values[fieldName] = this._fields[fieldName].value;
+        }
 
         return values;
     }

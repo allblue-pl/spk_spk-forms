@@ -22,6 +22,10 @@ export default class Field
         return this._fullName;
     }
 
+    get info() {
+        return this._info;
+    }
+
     get value() {
         let type = this._info.type;
 
@@ -43,9 +47,9 @@ export default class Field
         } else if (type === 'File') {
             let file = this.elem.files[0];
             return typeof file === 'undefined' ? null : file;
-        } else if (type === 'text')
+        } else if (type === 'Text')
             return null;
-        else if (type === 'radio') {
+        else if (type === 'Radio') {
             console.log('Radio not implemented.');
             // let options = this._private.$elems.htmlElems('field');
 
@@ -84,7 +88,7 @@ export default class Field
             }
         } else if (this._info.type === 'Input') {
             if (this._info['input-type'] === 'checkbox') {
-                this.elem.checked = value === 'true';
+                this.elem.checked = value ? true : false;
                 let event = document.createEvent("HTMLEvents");
                 event.initEvent("change", true, true);
                 this.elem.dispatchEvent(event);
