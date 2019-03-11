@@ -72,7 +72,7 @@ export default class Field
             this.elem.dispatchEvent(event);
         } else if (this._info.type === 'Date' || this._info.type === 'DateTime' ||
                 this._info.type === 'Time') {
-            let m = value === '' ? '' : moment(value * 1000)
+            let m = value === null ? '' : moment(value * 1000)
                     .utcOffset(abDate.utcOffset);
             $(this.elem).data('DateTimePicker').date(m);
         } else if (this._info.type === 'File') {
