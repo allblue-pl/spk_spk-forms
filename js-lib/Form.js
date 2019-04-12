@@ -103,6 +103,8 @@ export default class Form
 
     setMessage(message, messageClass)
     {
+        js0.args(arguments, 'string', 'string');
+
         let messageFound = false;
         if ('spk-forms-message' in this.l.$data) {
             if (this.l.$data['spk-forms-message'].includes(this.formName))

@@ -110,6 +110,11 @@ export default class Ext extends spocky.Ext
 
         let layoutContent = $layouts.Message.Content;
 
+        if (!('form' in layoutNode.attribs)) {
+            console.warn(`No 'form' attribute in '${layoutNode.type}'.`);
+            return;
+        }
+
         let formName = layoutNode.attribs.form[0];
         let fullFormName = `spkForms_${formName}`;
 
