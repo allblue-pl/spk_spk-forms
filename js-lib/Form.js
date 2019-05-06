@@ -76,7 +76,7 @@ export default class Form
     clearValidator()
     {
         for (let fieldName in this._fields)
-        this._fields[fieldName].clearValidator();
+            this._fields[fieldName].clearValidator();
     }
 
     getValues()
@@ -132,8 +132,8 @@ export default class Form
 
     setValidator(validator)
     {
-        for (let fieldName in this._fields)
-            this._fields[fieldName].clearValidator();
+        this.clearMessage();
+        this.clearValidator();
 
         for (let fieldName in validator.fields) {
             if (!(fieldName in this._fields)) {
