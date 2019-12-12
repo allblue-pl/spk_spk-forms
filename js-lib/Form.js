@@ -59,8 +59,8 @@ export default class Form
     clearMessage()
     {
         let messageFound = false;
-        if ('spk-forms-message' in this.l.$data) {
-            if (this.l.$data['spk-forms-message'].includes(this.formName))
+        if ('spk-form-message' in this.l.$data) {
+            if (this.l.$data['spk-form-message'].includes(this.formName))
                 messageFound = true;
         }
         if (!messageFound)
@@ -105,9 +105,11 @@ export default class Form
     {
         js0.args(arguments, 'string', 'string');
 
+        console.log(this.l.$data);
+
         let messageFound = false;
-        if ('spk-forms-message' in this.l.$data) {
-            if (this.l.$data['spk-forms-message'].includes(this.formName))
+        if ('spk-form-message' in this.l.$data) {
+            if (this.l.$data['spk-form-message'].includes(this.formName))
                 messageFound = true;
         }
         if (!messageFound)
