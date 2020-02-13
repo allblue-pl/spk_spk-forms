@@ -29,8 +29,9 @@ export default class Form
 
         this._fields = {};
 
-        if (!('spk-field' in layout.$data) && spocky.Debug) {
-            console.warn('No spk-fields in layout.', new Error());
+        if (!('spk-field' in layout.$data)) {
+            if (spocky.Debug)
+                console.warn('No spk-fields in layout.', new Error());
             return;
         }
 
