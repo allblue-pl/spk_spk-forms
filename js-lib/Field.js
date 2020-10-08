@@ -209,6 +209,8 @@ export default class Field
         } else if (this._info.type === 'select' || this._info.type === 'file') {
             this.elem.addEventListener('change', on_change);
         } else if (this._info.type === 'Input' || this._info.type === 'TextArea') {
+            this.value = '';
+
             this.elem.addEventListener('change', onChange);
             this.elem.addEventListener('keyup', onChange);
 
