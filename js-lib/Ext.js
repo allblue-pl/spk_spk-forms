@@ -65,6 +65,7 @@ export default class Ext extends spocky.Ext
             throw new Error(`No 'type' set for 'spk-form-field' '${layoutNode.attribs.name[0]}.`);
 
         let formName = layoutNode.attribs.form[0];
+        let fullFormName = 'spkForms_' + layoutNode.attribs.form[0];
         let fieldName = layoutNode.attribs.name[0];
         let fullFieldName = `spkForms_${formName}_Fields_${fieldName}`;
         let fieldInfo = this._getFieldInfo(layoutNode);
@@ -72,10 +73,13 @@ export default class Ext extends spocky.Ext
         let layoutContent = this._getFieldLayoutContent(layoutNode.attribs.type[0]);
 
         spocky.Layout.Replace(layoutContent, '{{formName}}', formName)
+        spocky.Layout.Replace(layoutContent, '{{fullFormName}}', fullFormName)
         spocky.Layout.Replace(layoutContent, '{{fieldName}}', fieldName);
         spocky.Layout.Replace(layoutContent, '{{fullFieldName}}', fullFieldName);
         spocky.Layout.Replace(layoutContent, '{{fieldInfo}}', `${fieldInfo}`);
 
+        spocky.Layout.Replace(layoutContent, '{{showLabel}}', 
+                'show-label' in layoutNode.attribs ? layoutNode.attribs['show-label'].join('') : '?(true)');
         spocky.Layout.Replace(layoutContent, '{{fieldLabel}}', 
                 'label' in layoutNode.attribs ? layoutNode.attribs.label.join('') : '');
         spocky.Layout.Replace(layoutContent, '{{fieldPlaceholder}}', 

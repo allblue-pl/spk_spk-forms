@@ -106,8 +106,6 @@ export default class Form
     {
         js0.args(arguments, 'string', 'string');
 
-        console.log(this.l.$data);
-
         let messageFound = false;
         if ('spk-form-message' in this.l.$data) {
             if (this.l.$data['spk-form-message'].includes(this.formName))
@@ -115,6 +113,8 @@ export default class Form
         }
         if (!messageFound)
             throw new Error(`Message not found in form '${this.formName}'.`);
+
+        console.log('Test', message);
 
         this.l.$fields = {
             [`${this.fullFormName}_Message_Class`]: messageClass,
