@@ -1,6 +1,7 @@
 'use strict';
 
 const
+    abTextParser = require('ab-text-parser'),
     js0 = require('js0'),
     spocky = require('spocky'),
 
@@ -33,7 +34,7 @@ export default class Ext extends spocky.Ext
             data[attrName] = layoutNode.attribs[attrName]
                 .join('')
                 .replace(/"/g, '\\"')
-                .replace(/\$/, '\\$');
+                .replace(/\$/g, '\\$');
         }
 
         return JSON.stringify(data);
@@ -72,35 +73,40 @@ export default class Ext extends spocky.Ext
 
         let layoutContent = this._getFieldLayoutContent(layoutNode.attribs.type[0]);
 
-        spocky.Layout.Replace(layoutContent, '{{formName}}', formName)
-        spocky.Layout.Replace(layoutContent, '{{fullFormName}}', fullFormName)
-        spocky.Layout.Replace(layoutContent, '{{fieldName}}', fieldName);
-        spocky.Layout.Replace(layoutContent, '{{fullFieldName}}', fullFieldName);
-        spocky.Layout.Replace(layoutContent, '{{fieldInfo}}', `${fieldInfo}`);
+        let replaceArr = [
+            [ '{{formName}}', formName ],
+            [ '{{fullFormName}}', fullFormName ],
+            [ '{{fieldName}}', fieldName ],
+            [ '{{fullFieldName}}', fullFieldName ],
+            [ '{{fieldInfo}}', fieldInfo ],
 
-        spocky.Layout.Replace(layoutContent, '{{showLabel}}', 
-                'show-label' in layoutNode.attribs ? layoutNode.attribs['show-label'].join('') : '?(true)');
-        spocky.Layout.Replace(layoutContent, '{{fieldLabel}}', 
-                'label' in layoutNode.attribs ? layoutNode.attribs.label.join('') : '');
-        spocky.Layout.Replace(layoutContent, '{{fieldPlaceholder}}', 
-                'placeholder' in layoutNode.attribs ? layoutNode.attribs.placeholder.join('') : '');
+            [ '{{showLabel}}', 'show-label' in layoutNode.attribs 
+                    ? layoutNode.attribs['show-label'].join('') : '?(true)' ],
+            [ '{{fieldLabel}}', 'label' in layoutNode.attribs ? 
+                    layoutNode.attribs.label.join('') : '' ],
+            [ '{{fieldPlaceholder}}', 'placeholder' in layoutNode.attribs ? 
+                    layoutNode.attribs.placeholder.join('') : '' ],
 
-        spocky.Layout.Replace(layoutContent, '{{labelClass}}', 
-                'label-class' in layoutNode.attribs ? layoutNode.attribs['label-class'].join('') : '');
-        spocky.Layout.Replace(layoutContent, '{{fieldClass}}', 
-                'field-class' in layoutNode.attribs ? layoutNode.attribs['field-class'].join('') : '');
-        spocky.Layout.Replace(layoutContent, '{{divClass}}', 
-                'div-class' in layoutNode.attribs ? layoutNode.attribs['div-class'].join('') : '');
+            [ '{{labelClass}}', 'label-class' in layoutNode.attribs ? 
+                    layoutNode.attribs['label-class'].join('') : '' ],
+            [ '{{fieldClass}}', 'field-class' in layoutNode.attribs ? 
+                    layoutNode.attribs['field-class'].join('') : '' ],
+            [ '{{divClass}}', 'div-class' in layoutNode.attribs ? 
+                    layoutNode.attribs['div-class'].join('') : '' ],
 
-        spocky.Layout.Replace(layoutContent, '{{fieldRows}}', 
-                 'rows' in layoutNode.attribs ? layoutNode.attribs.rows.join('') : '3');
+            [ '{{fieldRows}}', 'rows' in layoutNode.attribs ? 
+                    layoutNode.attribs.rows.join('') : '3' ],
+        ];
 
         /* Special */
         if (layoutNode.attribs.type[0] === 'Input') {
-            spocky.Layout.Replace(layoutContent, '{{inputType}}',
-                    'input-type' in layoutNode.attribs ? 
-                    layoutNode.attribs['input-type'][0] : 'text');
+            replaceArr.push(
+                [ '{{inputType}}', 'input-type' in layoutNode.attribs ? 
+                        layoutNode.attribs['input-type'].join('') : 'text' ]
+            );
         }
+
+        spocky.Layout.Replace(layoutContent, replaceArr);
 
         layoutNode.content = [];
         for (let newLayoutNode of layoutContent)
@@ -122,8 +128,11 @@ export default class Ext extends spocky.Ext
         let formName = layoutNode.attribs.form[0];
         let fullFormName = `spkForms_${formName}`;
 
-        spocky.Layout.Replace(layoutContent, '{{formName}}', formName);
-        spocky.Layout.Replace(layoutContent, '{{fullFormName}}', fullFormName);
+        let replaceArr = [
+            [ '{{formName}}', formName ],
+            [ '{{fullFormName}}', fullFormName ],
+        ];
+        spocky.Layout.Replace(layoutContent, replaceArr);
 
         layoutNode.content = [];
         for (let newLayoutNode of layoutContent)

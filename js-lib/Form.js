@@ -43,6 +43,11 @@ export default class Form
                 continue;
 
             let fieldInfo = JSON.parse(field.substring(separatorIndex + 1));
+            for (let attrName in fieldInfo) {
+                fieldInfo[attrName] = fieldInfo[attrName]
+                    .replace(/\\"/g, '"')
+                    .replace(/\\\$/g, '$');
+            }
 
             this._fields[fieldInfo.name] = new Field(layout, fieldInfo);
         }
