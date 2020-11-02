@@ -119,8 +119,6 @@ export default class Form
         if (!messageFound)
             throw new Error(`Message not found in form '${this.formName}'.`);
 
-        console.log('Test', message);
-
         this.l.$fields = {
             [`${this.fullFormName}_Message_Class`]: messageClass,
             [`${this.fullFormName}_Message`]: message,

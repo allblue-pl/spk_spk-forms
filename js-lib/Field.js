@@ -114,7 +114,7 @@ export default class Field
 
             if (!selected)
                 console.warn('Cannot find option `' + value + '`.');
-        } else if (this._info.type === 'text')
+        } else if (this._info.type === 'Text')
             this.elem.innerHTML = value;
         else
             this.elem.value = value;

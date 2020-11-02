@@ -7,7 +7,7 @@
     </label>
     <div class="{{fieldClass}}">
         <select _elem="{{fullFieldName}}_Field"
-                type="{{inputType}}" id="{{fullFieldName}}" name="{{fieldName}}"
+                id="{{fullFieldName}}" name="{{fieldName}}"
                 class="form-control" style="${{fullFieldName}}_Style">            
             <option _repeat="{{fullFieldName}}_Options:option" _field="option.title"
                     value="$option.value" class="$option.class" style="$option.style" />
