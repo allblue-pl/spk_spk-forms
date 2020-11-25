@@ -83,9 +83,9 @@ export default class Ext extends spocky.Ext
             [ '{{showLabel}}', 'show-label' in layoutNode.attribs 
                     ? layoutNode.attribs['show-label'].join('') : '?(true)' ],
             [ '{{fieldLabel}}', 'label' in layoutNode.attribs ? 
-                    layoutNode.attribs.label.join('') : '' ],
+                    layoutNode.attribs.label.join('') : '\'\'' ],
             [ '{{fieldPlaceholder}}', 'placeholder' in layoutNode.attribs ? 
-                    layoutNode.attribs.placeholder.join('') : '' ],
+                    layoutNode.attribs.placeholder.join('') : '\'\'' ],
 
             [ '{{labelClass}}', 'label-class' in layoutNode.attribs ? 
                     layoutNode.attribs['label-class'].join('') : '' ],
