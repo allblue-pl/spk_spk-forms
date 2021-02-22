@@ -72,9 +72,12 @@ export default class Field
             this.elem.dispatchEvent(event);
         } else if (this._info.type === 'Date' || this._info.type === 'DateTime' ||
                 this._info.type === 'Time') {
-            let m = value === null ? '' : moment(value * 1000)
-                    .utcOffset(abDate.utcOffset);
-            $(this.elem).data('DateTimePicker').date(m);
+            if (value === null)
+                this.elem.value = '';
+            else {
+                let m = moment(value * 1000).utcOffset(abDate.utcOffset);
+                $(this.elem).data('DateTimePicker').date(m);
+            }
         } else if (this._info.type === 'File') {
             /* Do nothing. */
         } else if (this._info.type === 'Radio') {
@@ -188,6 +191,7 @@ export default class Field
                     showTodayButton: this._info.type !== 'Time',
                     useCurrent: false,
                     locale: spkForms.lang,
+                    ignoreReadonly: true,
                 })
                 .on('dp.show', (evt) => {
                     if($(this.elem).data("DateTimePicker").date() === null)
@@ -198,6 +202,12 @@ export default class Field
                     this.clearValidator();
                     this.elem.blur();
                 });
+
+            this._layout.$elems[`${this._fullName}_ClearCalendar`].addEventListener(
+                    'click', (evt) => {
+                evt.preventDefault();
+                this.value = null;
+            });
         } else if (this._info.type === 'file') {
             this.fields.accept = '';
             if (this.attrExists('accept'))

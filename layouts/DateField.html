@@ -7,13 +7,16 @@
     </label>
     <div class="{{fieldClass}}">
         <div class="input-group mb-3">
+            <span class="input-group-prepend">
+                <span _elem="{{fullFieldName}}_Calendar" class="input-group-text fa fa-calendar pt-2"></span>
+            </span>
             <input
                 _elem="{{fullFieldName}}_Field"
                 type="text" id="{{fullFieldName}}" name="{{fieldName}}"
                 class="form-control datetimepicker ${{fullFieldName}}_Validator.fieldClass"
-                placeholder="{{fieldPlaceholder}}" />
+                placeholder="{{fieldPlaceholder}}" readonly="true" style="cursor: default; background-color: #ffffff;" />
             <span class="input-group-append">
-                <span _elem="{{fullFieldName}}_Calendar" class="input-group-text fa fa-calendar"></span>
+                <span _elem="{{fullFieldName}}_ClearCalendar" class="input-group-text fa fa-times pt-2"></span>
             </span>
             <p _repeat="{{fullFieldName}}_Validator.errors:errorMessage"
                     class="invalid-feedback">
