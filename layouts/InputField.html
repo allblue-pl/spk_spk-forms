@@ -10,7 +10,8 @@
                 _elem="{{fullFieldName}}_Field"
                 type="{{inputType}}" id="{{fullFieldName}}" name="{{fieldName}}"
                 class="form-control ${{fullFieldName}}_Validator.fieldClass"
-                placeholder="{{fieldPlaceholder}}" />
+                placeholder="{{fieldPlaceholder}}"
+                autocomplete="off" />
         <p _repeat="{{fullFieldName}}_Validator.errors:errorMessage"
                 class="invalid-feedback">
             $errorMessage
