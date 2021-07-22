@@ -40,6 +40,8 @@ export default class Field
             let value = this.elem.value;
 
             return value === '' ? null : abDate.strToTime_DateTime(value);
+        } else if (type === 'Message') {
+            throw new Error('Value of Message Field is not gettable.');
         } else if (type === 'Time') {
             let value = this.elem.value;
 
@@ -78,6 +80,8 @@ export default class Field
                 let m = moment(value * 1000).utcOffset(abDate.utcOffset);
                 $(this.elem).data('DateTimePicker').date(m);
             }
+        } else if (this._info.type === 'Message') {
+            /* Do nothing */
         } else if (this._info.type === 'File') {
             /* Do nothing. */
         } else if (this._info.type === 'Radio') {

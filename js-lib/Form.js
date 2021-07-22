@@ -39,7 +39,7 @@ export default class Form
             let separatorIndex = field.indexOf(':');
             
             let formName = field.substring(0, separatorIndex);
-            if (formName !== formName)
+            if (formName !== this.formName)
                 continue;
 
             let fieldInfo = JSON.parse(field.substring(separatorIndex + 1));
@@ -90,6 +90,8 @@ export default class Form
         let values = {};
 
         for (let fieldName in this._fields) {
+            if (this._fields[fieldName].info.type === 'Message')
+                continue;
             if (this._fields[fieldName].info.type === 'Text')
                 continue;
 
@@ -149,6 +151,10 @@ export default class Form
             }
 
             this._fields[fieldName].setValidator(validator.fields[fieldName]);
+        }
+
+        if (validator.errors.length > 0) {
+            this.setMessage_Error(validator.errors.join(' '));
         }
     }
 
