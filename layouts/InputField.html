@@ -1,8 +1,8 @@
 
-<div class="form-group {{divClass}} ${{fullFieldName}}_Validator.divClass" 
+<div class="{{divClass}} ${{fullFieldName}}_Validator.divClass" 
         _data-spk-field="{{formName}}:{{fieldInfo}}">
     <label _show="?({{fieldLabel}} !== '')" for="{{fullFieldName}}"
-            class="{{labelClass}}">
+            class="form-label {{labelClass}}">
         <span _field="?({{fieldLabel}})" />
     </label>
     <div class="{{fieldClass}}">
@@ -12,9 +12,9 @@
                 class="form-control ${{fullFieldName}}_Validator.fieldClass"
                 placeholder="{{fieldPlaceholder}}"
                 autocomplete="off" />
-        <p _repeat="{{fullFieldName}}_Validator.errors:errorMessage"
+        <div _repeat="{{fullFieldName}}_Validator.errors:errorMessage"
                 class="invalid-feedback">
             $errorMessage
-        </p>
+        </div>
     </div>
 </div>

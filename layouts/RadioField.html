@@ -1,5 +1,5 @@
 
-<div class="form-group {{field.divClass}} {{validator.divClass}}">
+<div class="{{field.divClass}} {{validator.divClass}}">
     <label ab-show="field.label" class="{{field.labelClass}}">
         {{field.label}}
     </label>
@@ -13,10 +13,10 @@
                 &nbsp;{{option.title}}
             </label>
         </div>
-        <p ab-show="validator.hasErrors"
+        <div ab-show="validator.hasErrors"
             ab-repeat="validator.errors:error_message"
-            class="error">
+            class="invalid-feedback">
             {{error_message}}
-        </p>
+        </div>
     </div>
 </div>

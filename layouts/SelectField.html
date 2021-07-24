@@ -1,8 +1,8 @@
 
-<div class="form-group ${{fullFieldName}}.divClass ${{rowClass}} {{fullFieldName}}_Validator.divClass"
+<div class="${{fullFieldName}}.divClass ${{rowClass}} {{fullFieldName}}_Validator.divClass"
         _data-spk-field="{{formName}}:{{fieldInfo}}">
     <label _show="{{fullFieldName}}_Label" for="{{fullFieldName}}"
-            class="{{labelClass}}}">
+            class="form-label {{labelClass}}}">
         {{fieldLabel}}
     </label>
     <div class="{{fieldClass}}">
@@ -12,9 +12,9 @@
             <option _repeat="{{fullFieldName}}_Options:option" _field="option.title"
                     value="$option.value" class="$option.class" style="$option.style" />
         </select>
-        <p _repeat="{{fullFieldName}}_Validator.errors:errorMessage"
-                class="error">
+        <div _repeat="{{fullFieldName}}_Validator.errors:errorMessage"
+                class="invalid-feedback">
             $errorMessage
-        </p>
+        </div>
     </div>
 </div>
