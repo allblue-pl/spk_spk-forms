@@ -34,7 +34,8 @@ export default class Ext extends spocky.Ext
             data[attrName] = layoutNode.attribs[attrName]
                 .join('')
                 .replace(/"/g, '\\"')
-                .replace(/\$/g, '\\$');
+                .replace(/\$/g, '\\$')
+                .replace(/\?/g, '\\?');
         }
 
         return JSON.stringify(data);
