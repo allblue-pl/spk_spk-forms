@@ -35,11 +35,11 @@ export default class Field
         } else if (type === 'Date') {
             let value = this.elem.value;
 
-            return value === '' ? null : abDate.strToTime_Date(value);
+            return value === '' ? null : abDate.strToTime_Date_UTC(value);
         } else if (type === 'DateTime') {
             let value = this.elem.value;
 
-            return value === '' ? null : abDate.strToTime_DateTime(value);
+            return value === '' ? null : abDate.strToTime_DateTime_UTC(value);
         } else if (type === 'Message') {
             throw new Error('Value of Message Field is not gettable.');
         } else if (type === 'Time') {
@@ -77,7 +77,7 @@ export default class Field
             if (value === null)
                 this.elem.value = '';
             else {
-                let m = moment(value * 1000).utcOffset(abDate.utcOffset);
+                let m = moment(value * 1000).utcOffset(0);
                 $(this.elem).data('DateTimePicker').date(m);
             }
         } else if (this._info.type === 'Message') {
