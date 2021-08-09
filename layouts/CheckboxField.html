@@ -1,12 +1,10 @@
 
-<div class="form-check {{divClass}} {{fullFieldName}}_Validator.divClass {{divClass}"
+<div class="form-check {{divClass}} {{fullFieldName}}_Validator.divClass"
         _data-spk-field="{{formName}}:{{fieldInfo}}">
-    <div class="form-check{{fieldClass}}">
-        <input _elem="{{fullFieldName}}_Field"
-                type="checkbox" id="{{fullFieldName}}" name="{{fieldName}}"
-                class="form-check-input ${{fullFieldName}}_Validator.fieldClass"
-                placeholder="{{fieldPlaceholder}}" />
-    </div>
+    <input _elem="{{fullFieldName}}_Field"
+            type="checkbox" id="{{fullFieldName}}" name="{{fieldName}}"
+            class="form-check-input ${{fullFieldName}}_Validator.fieldClass"
+            placeholder="{{fieldPlaceholder}}" />
     <label _show="{{fullFieldName}}_Label" for="{{fullFieldName}}"
             class="form-check-label {{labelClass}}">
         <div _repeat="{{fullFieldName}}_Validator.errors:errorMessage" class="invalid-feedback">
