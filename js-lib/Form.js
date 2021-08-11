@@ -165,7 +165,6 @@ export default class Form
         for (let fieldName in values) {
             if (!(fieldName in this._fields)) {
                 if (spkForms.debug && !ignoreNotExisting) {
-                    console.log('Test', ignoreNotExisting);
                     console.warn(`Field '${fieldName}' does not exist. Cannot set value.`, 
                             new Error());
                 }
