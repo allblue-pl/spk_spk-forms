@@ -35,11 +35,11 @@ export default class Field
         } else if (type === 'Date') {
             let value = this.elem.value;
 
-            return value === '' ? null : abDate.strToTime_Date_UTC(value);
+            return value === '' ? null : abDate.strToTime_Date(value);
         } else if (type === 'DateTime') {
             let value = this.elem.value;
 
-            return value === '' ? null : abDate.strToTime_DateTime_UTC(value);
+            return value === '' ? null : abDate.strToTime_DateTime(value);
         } else if (type === 'Message') {
             throw new Error('Value of Message Field is not gettable.');
         } else if (type === 'Time') {
@@ -61,6 +61,17 @@ export default class Field
             // }
 
             // return '';
+        } else if (type === 'SelectMultiple') {
+            let values = [];
+
+            let options = this.elem.options;
+            for (let i = 0; i < options.length; i++) {
+                if (options[i].selected) {
+                    values.push(options[i].value);
+                }
+            }
+
+            return values;
         } else if (type === 'Input' && this._info['input-type'] === 'checkbox')
             return this.elem.checked ? true : false;
 
@@ -102,8 +113,6 @@ export default class Field
             } else
                 this.elem.value = value;
         } else if (this._info.type === 'Select') {
-            let elem = this.elem;
-
             let selected = false;
             let options = this.elem.options;
             for (let i = 0; i < options.length; i++) {
@@ -121,6 +130,31 @@ export default class Field
 
             if (!selected)
                 console.warn('Cannot find option `' + value + '`.');
+        } else if (this._info.type === 'SelectMultiple') { 
+            if (!(value instanceof Array)) {
+                console.warn(`SelectMultiple value '` + value + `' should be an Array.`);
+                return;
+            }
+
+            for (let value_T of value) {
+                let selected = false;
+                let options = this.elem.options;
+                for (let i = 0; i < options.length; i++) {
+                    if (options[i].value === value_T + '') {
+                        options[i].selected = true;
+
+                        let event = document.createEvent("HTMLEvents");
+                        event.initEvent("change", true, true);
+                        this.elem.dispatchEvent(event);
+
+                        selected = true;
+                        break;
+                    }
+                }
+
+                if (!selected)
+                    console.warn('Cannot find option `' + value_T + '`.');
+            }
         } else if (this._info.type === 'Text')
             this.elem.innerHTML = value;
         else
