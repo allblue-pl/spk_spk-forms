@@ -1,14 +1,15 @@
 
-<div class="${{fullFieldName}}.divClass ${{rowClass}} {{fullFieldName}}_Validator.divClass"
+<div class="{{divClass}} ${{fullFieldName}}_Validator.divClass"
         _data-spk-field="{{formName}}:{{fieldInfo}}">
-    <label _show="{{fullFieldName}}_Label" for="{{fullFieldName}}"
-            class="form-label {{labelClass}}}">
-        {{fieldLabel}}
+    <label _show="?({{fieldLabel}} !== '')" for="{{fullFieldName}}"
+            class="form-label {{labelClass}}">
+        <span _field="?({{fieldLabel}})" />
     </label>
     <div class="{{fieldClass}}">
         <select _elem="{{fullFieldName}}_Field"
                 id="{{fullFieldName}}" name="{{fieldName}}"
-                class="form-control" style="${{fullFieldName}}_Style">            
+                class="form-control ${{fullFieldName}}_Validator.fieldClass" 
+                style="${{fullFieldName}}_Style">            
             <option _repeat="{{fullFieldName}}_Options:option" _field="option.title"
                     value="$option.value" class="$option.class" style="$option.style" />
         </select>
