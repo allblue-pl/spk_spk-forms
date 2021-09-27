@@ -216,11 +216,11 @@ export default class Field
                 this._info.type === 'Time') {
             let format;
             if (this._info.type === 'Date')
-                format = 'L';
+                format = abDate.formats_Date;
             else if (this._info.type === 'DateTime')
-                format = 'L LT';
+                format = abDate.formats_DateTime;
             else if (this._info.type === 'Time')
-                format = 'LT';
+                format = abDate.formats_Time;
 
             /* Initialize `date` field. */
             $(this.elem)
