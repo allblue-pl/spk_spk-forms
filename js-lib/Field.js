@@ -88,7 +88,7 @@ export default class Field
             if (value === null)
                 this.elem.value = '';
             else {
-                let m = moment(value * 1000).utcOffset(abDate.utcOffset);
+                let m = moment(value * 1000).utcOffset(0);
                 $(this.elem).data('DateTimePicker').date(m);
             }
         } else if (this._info.type === 'Message') {
