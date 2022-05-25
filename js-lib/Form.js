@@ -15,6 +15,10 @@ export default class Form
         return this._fields;
     }
 
+    get layout() {
+        return this._layout;
+    }
+
 
     constructor(layout, formName)
     {
@@ -23,7 +27,7 @@ export default class Form
         if (!spkForms.extInitialized)
             throw new Error('Ext not initialized.');
 
-        this.l = layout;
+        this._layout = layout;
         this.formName = formName;
         this.fullFormName = `spkForms_${formName}`;
 
@@ -65,14 +69,14 @@ export default class Form
     clearMessage()
     {
         let messageFound = false;
-        if ('spk-form-message' in this.l.$data) {
-            if (this.l.$data['spk-form-message'].includes(this.formName))
+        if ('spk-form-message' in this._layout.$data) {
+            if (this._layout.$data['spk-form-message'].includes(this.formName))
                 messageFound = true;
         }
         if (!messageFound)
             return;
 
-        this.l.$fields = {
+        this._layout.$fields = {
             [`${this.fullFormName}_Message_Class`]: '',
             [`${this.fullFormName}_Message`]: '',
             [`${this.fullFormName}_Message_Show`]: false,
