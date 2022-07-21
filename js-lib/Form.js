@@ -15,6 +15,12 @@ export default class Form
         return this._fields;
     }
 
+    get l() {
+        console.warn(`'l() is deprecated. Use layout() instead.'`);
+
+        return this._layout;
+    }
+
     get layout() {
         return this._layout;
     }
@@ -87,6 +93,14 @@ export default class Form
     {
         for (let fieldName in this._fields)
             this._fields[fieldName].clearValidator();
+    }
+
+    getField(fieldName)
+    {
+        if (!(fieldName in this._fields))
+            throw new Error(`Field 'fieldName' does not exist.`);
+
+        return this._fields[fieldName];
     }
 
     getValues()
