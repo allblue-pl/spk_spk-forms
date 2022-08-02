@@ -53,6 +53,7 @@ export default class Form
                 continue;
 
             let fieldInfo = JSON.parse(field.substring(separatorIndex + 1));
+
             for (let attrName in fieldInfo) {
                 fieldInfo[attrName] = fieldInfo[attrName]
                     .replace(/\\"/g, '"')
@@ -98,7 +99,7 @@ export default class Form
     getField(fieldName)
     {
         if (!(fieldName in this._fields))
-            throw new Error(`Field 'fieldName' does not exist.`);
+            throw new Error(`Field '${fieldName}' does not exist.`);
 
         return this._fields[fieldName];
     }

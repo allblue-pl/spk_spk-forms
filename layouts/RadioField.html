@@ -1,22 +1,25 @@
 
-<div class="{{field.divClass}} {{validator.divClass}}">
-    <label ab-show="field.label" class="{{field.labelClass}}">
-        {{field.label}}
+<div class="form-check {{divClass}} {{fullFieldName}}_Validator.divClass"
+        _data-spk-field="{{formName}}:{{fieldInfo}}">
+    <label _show="?({{fieldLabel}} !== '')" for="{{fullFieldName}}"
+            class="form-label {{labelClass}}">
+        <span _field="?({{fieldLabel}})" />
     </label>
-    <div class="{{field.fieldClass}}">
-        <div ab-repeat="field.options:option">
+    <div class="{{fieldClass}}">
+        <div _repeat="{{fullFieldName}}_Options:Option">
             <input
-                ab-elem="field(field)"
-                type="radio" id="{{field.name}}_{{option.value}}"
-                name="{{field.name}}" value="{{option.value}}" />
-            <label for="{{field.name}}_{{option.value}}">
-                &nbsp;{{option.title}}
+                _elem="{{fullFieldName}}_Field"
+                type="radio" id="{{fullFieldName}}_${Option.value}"
+                name="{{fieldName}}" value="$Option.value"
+                class="${{fullFieldName}}_Validator.fieldClass" 
+                style="${{fullFieldName}}_Style" />
+            <label for="{{fullFieldName}}_${Option.value}">
+                &nbsp;${Option.title}
             </label>
         </div>
-        <div ab-show="validator.hasErrors"
-            ab-repeat="validator.errors:error_message"
-            class="invalid-feedback">
-            {{error_message}}
+        <div _repeat="{{fullFieldName}}_Validator.errors:errorMessage"
+                class="invalid-feedback">
+            $errorMessage
         </div>
     </div>
 </div>

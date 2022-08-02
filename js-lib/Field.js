@@ -52,15 +52,14 @@ export default class Field
         } else if (type === 'Text')
             return null;
         else if (type === 'Radio') {
-            console.log('Radio not implemented.');
-            // let options = this._private.$elems.htmlElems('field');
+            let options = this._layout.$elems.$getAll(`${this._fullName}_Field`);
 
-            // for (let i = 0; i < options.length; i++) {
-            //     if (options[i].checked)
-            //         return options[i].getAttribute('value');
-            // }
+            for (let i = 0; i < options.length; i++) {
+                if (options[i].checked)
+                    return options[i].getAttribute('value');
+            }
 
-            // return '';
+            return '';
         } else if (type === 'SelectMultiple') {
             let values = [];
 
@@ -96,10 +95,11 @@ export default class Field
         } else if (this._info.type === 'File') {
             /* Do nothing. */
         } else if (this._info.type === 'Radio') {
-            let options = this._private.$elems.htmlElems('field');
+            let options = this._layout.$elems.$getAll(`${this._fullName}_Field`);
 
             for (let i = 0; i < options.length; i++) {
-                if (options[i].getAttribute('value') === value) {
+                if (options[i].getAttribute('value') === String(value)) {
+                    console.log('Here?', value);
                     options[i].checked = true;
                     return;
                 }
@@ -270,10 +270,14 @@ export default class Field
     {
         js0.args(arguments, 'boolean');
 
-        if (disabled)
-            this.elem.setAttribute('disabled', '');
-        else
-            this.elem.removeAttribute('disabled');
+        let elems = this._layout.$elems.$getAll(`${this._fullName}_Field`);
+
+        for (let elem of elems) {
+            if (disabled)
+                elem.setAttribute('disabled', '');
+            else
+                elem.removeAttribute('disabled');
+        }
     }
 
     setValidator(validator)
