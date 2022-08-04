@@ -1,19 +1,19 @@
 
-<div class="form-check {{divClass}} {{fullFieldName}}_Validator.divClass"
+<div class="{{divClass}} {{fullFieldName}}_Validator.divClass"
         _data-spk-field="{{formName}}:{{fieldInfo}}">
     <label _show="?({{fieldLabel}} !== '')" for="{{fullFieldName}}"
-            class="form-label {{labelClass}}">
+            class="{{labelClass}}">
         <span _field="?({{fieldLabel}})" />
     </label>
-    <div class="{{fieldClass}}">
-        <div _repeat="{{fullFieldName}}_Options:Option">
+    <div class="{{fieldClass}} col-form-label">
+        <div _repeat="{{fullFieldName}}_Options:Option" class="form-check">
             <input
                 _elem="{{fullFieldName}}_Field"
                 type="radio" id="{{fullFieldName}}_${Option.value}"
                 name="{{fieldName}}" value="$Option.value"
-                class="${{fullFieldName}}_Validator.fieldClass" 
+                class="form-check-input ${{fullFieldName}}_Validator.fieldClass" 
                 style="${{fullFieldName}}_Style" />
-            <label for="{{fullFieldName}}_${Option.value}">
+            <label for="{{fullFieldName}}_${Option.value}" class="form-check-label">
                 &nbsp;${Option.title}
             </label>
         </div>
