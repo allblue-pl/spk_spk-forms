@@ -99,7 +99,6 @@ export default class Field
 
             for (let i = 0; i < options.length; i++) {
                 if (options[i].getAttribute('value') === String(value)) {
-                    console.log('Here?', value);
                     options[i].checked = true;
                     return;
                 }
@@ -193,6 +192,11 @@ export default class Field
             fieldClass: '',
             divClass: '',
         }
+    }
+
+    getElem()
+    {
+
     }
 
     field(fieldName, ...args)
