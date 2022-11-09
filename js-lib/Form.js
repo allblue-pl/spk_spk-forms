@@ -104,6 +104,26 @@ export default class Form
         return this._fields[fieldName];
     }
 
+    getFiles()
+    {
+        let values = {};
+
+        for (let fieldName in this._fields) {
+            if (this._fields[fieldName].info.type === 'Message')
+                continue;
+            if (this._fields[fieldName].info.type === 'Text')
+                continue;
+
+            let value = this._fields[fieldName].value;
+            if (!(value instanceof File))
+                continue;
+
+            values[fieldName] = this._fields[fieldName].value;
+        }
+
+        return values;
+    }
+
     getValues()
     {
         let values = {};
@@ -112,6 +132,10 @@ export default class Form
             if (this._fields[fieldName].info.type === 'Message')
                 continue;
             if (this._fields[fieldName].info.type === 'Text')
+                continue;
+
+            let value = this._fields[fieldName].value;
+            if (value instanceof File)
                 continue;
 
             values[fieldName] = this._fields[fieldName].value;
