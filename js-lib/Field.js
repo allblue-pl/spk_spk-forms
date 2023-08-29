@@ -128,7 +128,8 @@ export default class Field
             }
 
             if (!selected)
-                console.warn('Cannot find option `' + value + '`.');
+                console.warn('Cannot find option `' + value + '` for field `' +
+                        this.fullName + '`.');
         } else if (this._info.type === 'SelectMultiple') { 
             if (!(value instanceof Array)) {
                 console.warn(`SelectMultiple value '` + value + `' should be an Array.`);
