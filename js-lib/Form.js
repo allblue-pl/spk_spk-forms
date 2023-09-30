@@ -16,7 +16,7 @@ export default class Form
     }
 
     get l() {
-        console.warn(`'l() is deprecated. Use layout() instead.'`);
+        console.warn(`'l() is deprecated. Use layout() instead.'`, new Error());
 
         return this._layout;
     }

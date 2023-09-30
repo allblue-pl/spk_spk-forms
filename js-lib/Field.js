@@ -79,8 +79,7 @@ export default class Field
     set value(value) {
         if (this._info.type === 'Checkbox') {
             this.elem.checked = value ? true : false;
-            let event = document.createEvent("HTMLEvents");
-            event.initEvent("change", true, true);
+            let event = new Event('change', { bubbles: true, cancelable: true });
             this.elem.dispatchEvent(event);
         } else if (this._info.type === 'Date' || this._info.type === 'DateTime' ||
                 this._info.type === 'Time') {
@@ -106,8 +105,7 @@ export default class Field
         } else if (this._info.type === 'Input') {
             if (this._info['input-type'] === 'checkbox') {
                 this.elem.checked = value ? true : false;
-                let event = document.createEvent("HTMLEvents");
-                event.initEvent("change", true, true);
+                let event = new Event('change', { bubbles: true, cancelable: true });
                 this.elem.dispatchEvent(event);
             } else
                 this.elem.value = value;
@@ -118,8 +116,7 @@ export default class Field
                 if (options[i].value === value + '') {
                     options[i].selected = true;
 
-                    let event = document.createEvent("HTMLEvents");
-                    event.initEvent("change", true, true);
+                    let event = new Event('change', { bubbles: true, cancelable: true });
                     this.elem.dispatchEvent(event);
 
                     selected = true;
@@ -143,8 +140,8 @@ export default class Field
                     if (options[i].value === value_T + '') {
                         options[i].selected = true;
 
-                        let event = document.createEvent("HTMLEvents");
-                        event.initEvent("change", true, true);
+                        let event = new Event('change', { bubbles: true, 
+                            cancelable: true });
                         this.elem.dispatchEvent(event);
 
                         selected = true;
@@ -193,11 +190,6 @@ export default class Field
             fieldClass: '',
             divClass: '',
         }
-    }
-
-    getElem()
-    {
-
     }
 
     field(fieldName, ...args)
@@ -251,23 +243,23 @@ export default class Field
                 evt.preventDefault();
                 this.value = null;
             });
-        } else if (this._info.type === 'file') {
+        } else if (this._info.type === 'File') {
             this.fields.accept = '';
             if (this.attrExists('accept'))
                 this.fields.accept = this.getAttr('accept');
-        } else if (this._info.type === 'radio') {
-            this.$elems.each('field', function(elem) {
-                elem.addEventListener('change', on_change);
-            });
-        } else if (this._info.type === 'select' || this._info.type === 'file') {
-            this.elem.addEventListener('change', on_change);
         } else if (this._info.type === 'Input' || this._info.type === 'TextArea') {
-            this.value = '';
+            // this.value = '';
 
             this.elem.addEventListener('change', onChange);
             this.elem.addEventListener('keyup', onChange);
 
             // this.elem.setAttribute('value', '');
+        } else if (this._info.type === 'Radio') {
+            this.$elems.each('field', function(elem) {
+                elem.addEventListener('change', onChange);
+            });
+        } else if (this._info.type === 'Select' || this._info.type === 'file') {
+            this.elem.addEventListener('change', onChange);
         }
     }
 
