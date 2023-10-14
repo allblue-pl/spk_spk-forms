@@ -71,8 +71,10 @@ export default class Field
             }
 
             return values;
-        } else if (type === 'Input' && this._info['input-type'] === 'checkbox')
+        } else if (type === 'Input' && 
+                this._info['input-type'].toLowerCase() === 'checkbox') {
             return this.elem.checked ? true : false;
+        }
 
         return this.elem.value;
     }
@@ -103,7 +105,8 @@ export default class Field
                 }
             }
         } else if (this._info.type === 'Input') {
-            if (this._info['input-type'] === 'checkbox') {
+            if (this._info['input-type'].toLowerCase() === 'checkbox') {
+                console.log('Here?');
                 this.elem.checked = value ? true : false;
                 let event = new Event('change', { bubbles: true, cancelable: true });
                 this.elem.dispatchEvent(event);
