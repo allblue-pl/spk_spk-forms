@@ -181,23 +181,23 @@ export default class Form
         this.setMessage(message, 'alert-success');
     }
 
-    setValidator(validator)
+    setValidator(validatorInfo)
     {
         this.clearMessage();
         this.clearValidator();
 
-        for (let fieldName in validator.fields) {
+        for (let fieldName in validatorInfo.fields) {
             if (!(fieldName in this._fields)) {
                 if (spkForms.debug)
                     console.warn(`Field '${fieldName}' does not exist in form.`)
                 continue;
             }
 
-            this._fields[fieldName].setValidator(validator.fields[fieldName]);
+            this._fields[fieldName].setValidator(validatorInfo.fields[fieldName]);
         }
 
-        if (validator.errors.length > 0) {
-            this.setMessage_Error(validator.errors.join(' '));
+        if (validatorInfo.errors.length > 0) {
+            this.setMessage_Error(validatorInfo.errors.join(' '));
         }
     }
 
