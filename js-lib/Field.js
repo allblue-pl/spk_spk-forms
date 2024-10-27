@@ -202,6 +202,16 @@ export default class Field
             this._layout.$fields[`${this.fullName}_${fieldName}`] = args[0];
     }
 
+    getLayoutElem(elemName) {
+        js0.args(arguments, 'string');
+        return this._layout.$elems[`${this._fullName}_${elemName}`];
+    }
+
+    getLayoutField(fieldName) {
+        js0.args(arguments, 'string');
+        return this._layout.$fields[`${this._fullName}_${elemName}`];
+    }
+
     init()
     {
         let onChange = (evt) => {
