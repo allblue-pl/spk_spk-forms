@@ -256,9 +256,9 @@ export default class Field
                 this.value = null;
             });
         } else if (this._info.type === 'File') {
-            this.fields.accept = '';
-            if (this.attrExists('accept'))
-                this.fields.accept = this.getAttr('accept');
+            this.field('Accept', '');
+            if ('accept' in this._info)
+                this.field('Accept', this._info.accept);
         } else if (this._info.type === 'Input' || this._info.type === 'TextArea') {
             // this.value = '';
 
@@ -267,9 +267,13 @@ export default class Field
 
             // this.elem.setAttribute('value', '');
         } else if (this._info.type === 'Radio') {
-            this.$elems.each('field', function(elem) {
+            console.log(this.getLayoutElem('Field'));
+            this.getLayoutElem('Field')((elem) => {
                 elem.addEventListener('change', onChange);
             });
+            // this._layout.$elems.each('field', function(elem) {
+            //     elem.addEventListener('change', onChange);
+            // });
         } else if (this._info.type === 'Select' || this._info.type === 'file') {
             this.elem.addEventListener('change', onChange);
         }
