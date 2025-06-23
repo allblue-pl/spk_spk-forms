@@ -161,8 +161,10 @@ export default class Form
             if (this.l.$data['spk-form-message'].includes(this.formName))
                 messageFound = true;
         }
-        if (!messageFound)
-            throw new Error(`Message not found in form '${this.formName}'.`);
+        if (!messageFound) {
+            if (spkForms.debug)
+                console.warn(`Message field not found in form '${this.formName}'.`);
+        }
 
         this.l.$fields = {
             [`${this.fullFormName}_Message_Class`]: messageClass,
