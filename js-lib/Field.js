@@ -79,6 +79,8 @@ export default class Field
         return this.elem.value;
     }
     set value(value) {
+        this.clearValidator();
+
         if (this._info.type === 'Checkbox') {
             this.elem.checked = value ? true : false;
             let event = new Event('change', { bubbles: true, cancelable: true });
