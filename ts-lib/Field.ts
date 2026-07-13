@@ -1,33 +1,34 @@
-'use strict';
-
-const
-    abDate = require('ab-date'),
-    js0 = require('js0'),
-
-    spkForms = require('.')
-;
+import "./Ext.ts";
+import abDate from "ab-date";
+import spkForms from "./index.js";
+import type { Layout } from "spocky";
+import { ts0Assert, ts0NotSet } from "@allblue/ts0";
+import type { FieldValidator } from "./ts-types.ts";
 
 
-export default class Field
-{
+export default class Field {
+    #layout: Layout;
+    #fullName: string;
+    #info: {[fieldName: string]: any};
 
-    get elem() {
-        js0.assert(`${this._fullName}_Field` in this._layout.$elems, 
+
+    get elem(): any {
+        ts0Assert(`${this.#fullName}_Field` in this.#layout.$elems, 
                 `Cannot find 'elem' in field layout.`);
 
-        return this._layout.$elems[`${this._fullName}_Field`];
+        return this.#layout.$elems[`${this.#fullName}_Field`];
     }
 
-    get fullName() {
-        return this._fullName;
+    get fullName(): string {
+        return this.#fullName;
     }
 
-    get info() {
-        return this._info;
+    get info(): {[fieldName: string]: any} {
+        return this.#info;
     }
 
-    get value() {
-        let type = this._info.type;
+    get value(): any {
+        let type = this.#info.type;
 
         /* Date Time */
         if (type === 'Checkbox') {
@@ -45,14 +46,14 @@ export default class Field
         } else if (type === 'Time') {
             let value = this.elem.value;
 
-            return value === '' ? null : abDate.strToTime_Time_UTC(value);
+            return value === '' ? null : abDate.strToTime_Time(value);
         } else if (type === 'File') {
             let file = this.elem.files[0];
             return typeof file === 'undefined' ? null : file;
         } else if (type === 'Text')
             return null;
         else if (type === 'Radio') {
-            let options = this._layout.$elems.$getAll(`${this._fullName}_Field`);
+            let options = this.#layout.$elems.$getAll(`${this.#fullName}_Field`);
 
             for (let i = 0; i < options.length; i++) {
                 if (options[i].checked)
@@ -72,7 +73,7 @@ export default class Field
 
             return values;
         } else if (type === 'Input' && 
-                this._info['input-type'].toLowerCase() === 'checkbox') {
+                this.#info['input-type'].toLowerCase() === 'checkbox') {
             return this.elem.checked ? true : false;
         }
 
@@ -81,24 +82,26 @@ export default class Field
     set value(value) {
         this.clearValidator();
 
-        if (this._info.type === 'Checkbox') {
+        if (this.#info.type === 'Checkbox') {
             this.elem.checked = value ? true : false;
             let event = new Event('change', { bubbles: true, cancelable: true });
             this.elem.dispatchEvent(event);
-        } else if (this._info.type === 'Date' || this._info.type === 'DateTime' ||
-                this._info.type === 'Time') {
+        } else if (this.#info.type === 'Date' || this.#info.type === 'DateTime' ||
+                this.#info.type === 'Time') {
             if (value === null)
                 this.elem.value = '';
             else {
+                // @ts-expect-error
                 let m = moment(value * 1000).utcOffset(0);
+                // @ts-expect-error
                 $(this.elem).data('DateTimePicker').date(m);
             }
-        } else if (this._info.type === 'Message') {
+        } else if (this.#info.type === 'Message') {
             /* Do nothing */
-        } else if (this._info.type === 'File') {
+        } else if (this.#info.type === 'File') {
             /* Do nothing. */
-        } else if (this._info.type === 'Radio') {
-            let options = this._layout.$elems.$getAll(`${this._fullName}_Field`);
+        } else if (this.#info.type === 'Radio') {
+            let options = this.#layout.$elems.$getAll(`${this.#fullName}_Field`);
 
             for (let i = 0; i < options.length; i++) {
                 if (options[i].getAttribute('value') === String(value)) {
@@ -106,14 +109,14 @@ export default class Field
                     return;
                 }
             }
-        } else if (this._info.type === 'Input') {
-            if (this._info['input-type'].toLowerCase() === 'checkbox') {
+        } else if (this.#info.type === 'Input') {
+            if (this.#info['input-type'].toLowerCase() === 'checkbox') {
                 this.elem.checked = value ? true : false;
                 let event = new Event('change', { bubbles: true, cancelable: true });
                 this.elem.dispatchEvent(event);
             } else
                 this.elem.value = value;
-        } else if (this._info.type === 'Select') {
+        } else if (this.#info.type === 'Select') {
             let selected = false;
             let options = this.elem.options;
             for (let i = 0; i < options.length; i++) {
@@ -131,7 +134,7 @@ export default class Field
             if (!selected)
                 console.warn('Cannot find option `' + value + '` for field `' +
                         this.fullName + '`.');
-        } else if (this._info.type === 'SelectMultiple') { 
+        } else if (this.#info.type === 'SelectMultiple') { 
             if (!(value instanceof Array)) {
                 console.warn(`SelectMultiple value '` + value + `' should be an Array.`);
                 return;
@@ -156,136 +159,128 @@ export default class Field
                 if (!selected)
                     console.warn('Cannot find option `' + value_T + '`.');
             }
-        } else if (this._info.type === 'Text')
+        } else if (this.#info.type === 'Text')
             this.elem.innerHTML = value;
         else
             this.elem.value = value;
 
-        // if (this._private.valueFieldName !== null)
-        //     this._private.mForm.$fields[this._private.valueFieldName] = this.value;
+        // if (this.#private.valueFieldName !== null)
+        //     this.#private.mForm.$fields[this.#private.valueFieldName] = this.value;
         // }
     }
 
-    constructor(layout, fieldInfo)
-    {
-        this._layout = layout;
-        this._info = fieldInfo;
+    constructor(layout: Layout, fieldInfo: {[name: string]: any}) {
+        this.#layout = layout;
+        this.#info = fieldInfo;
 
-        this._fullName = `spkForms_${fieldInfo.form}_Fields_${fieldInfo.name}`;
+        this.#fullName = `spkForms_${fieldInfo.form}_Fields_${fieldInfo.name}`;
 
-        let fields = {};
-        fields[`${this._fullName}_Label`] = 'label' in this._info ? this._info.label : '';        
+        let fields: {[fieldName: string]: string} = {};
+        fields[`${this.#fullName}_Label`] = 'label' in this.#info ? this.#info.label : '';        
 
         this.init();
 
-        this._layout.$fields = fields;
+        this.#layout.$fields = fields;
     }
 
-    clear()
-    {
+    clear(): void {
         this.value = '';
         this.clearValidator();
     }
 
-    clearValidator()
-    {
-        this._layout.$fields[`${this._fullName}_Validator`] = {
+    clearValidator(): void {
+        this.#layout.$fields[`${this.#fullName}_Validator`] = {
             errors: [],
             fieldClass: '',
             divClass: '',
         }
     }
 
-    field(fieldName, ...args)
-    {
-        if (args.length === 0)
-            return this._layout.$fields[`${this.fullName}_${fieldName}`];
+    field(fieldName: string, value: any = ts0NotSet): any {
+        if (value === ts0NotSet)
+            return this.#layout.$fields[`${this.fullName}_${fieldName}`];
         else
-            this._layout.$fields[`${this.fullName}_${fieldName}`] = args[0];
+            this.#layout.$fields[`${this.fullName}_${fieldName}`] = value;
     }
 
-    getLayoutElem(elemName) {
-        js0.args(arguments, 'string');
-        return this._layout.$elems[`${this._fullName}_${elemName}`];
+    getLayoutElem(fieldName: string): any {
+        return this.#layout.$elems[`${this.#fullName}_${fieldName}`];
     }
 
-    getLayoutField(fieldName) {
-        js0.args(arguments, 'string');
-        return this._layout.$fields[`${this._fullName}_${elemName}`];
+    getLayoutField(fieldName: string): any {
+        return this.#layout.$fields[`${this.#fullName}_${fieldName}`];
     }
 
-    init()
-    {
-        let onChange = (evt) => {
+    init(): void {
+        let onChange = (evt: Event) => {
             this.clearValidator();
         };
 
-        if (this._info.type === 'Checkbox') {
+        if (this.#info.type === 'Checkbox') {
             this.elem.addEventListener('change', onChange);
             this.elem.addEventListener('keyup', onChange);
-        } else if (this._info.type === 'Date' || this._info.type === 'DateTime' ||
-                this._info.type === 'Time') {
+        } else if (this.#info.type === 'Date' || this.#info.type === 'DateTime' ||
+                this.#info.type === 'Time') {
             let format;
-            if (this._info.type === 'Date')
+            if (this.#info.type === 'Date')
                 format = abDate.formats_Date;
-            else if (this._info.type === 'DateTime')
+            else if (this.#info.type === 'DateTime')
                 format = abDate.formats_DateTime;
-            else if (this._info.type === 'Time')
+            else if (this.#info.type === 'Time')
                 format = abDate.formats_Time;
 
             /* Initialize `date` field. */
+            // @ts-expect-error
             $(this.elem)
                 .datetimepicker( {
                     format: format,
-                    showTodayButton: this._info.type !== 'Time',
+                    showTodayButton: this.#info.type !== 'Time',
                     useCurrent: false,
                     locale: spkForms.lang,
                     ignoreReadonly: true,
                 })
-                .on('dp.show', (evt) => {
+                .on('dp.show', (evt: Event) => {
+                    // @ts-expect-error
                     if($(this.elem).data("DateTimePicker").date() === null)
+                        // @ts-expect-error
                         $(this.elem).data("DateTimePicker").date(moment());
                 })
-                .on('dp.hide', (evt) => {
+                .on('dp.hide', (evt: Event) => {
                     this.elem.setAttribute('value', this.elem.value);
                     this.clearValidator();
                     this.elem.blur();
                 });
 
-            this._layout.$elems[`${this._fullName}_ClearCalendar`].addEventListener(
-                    'click', (evt) => {
+            this.#layout.$elems[`${this.#fullName}_ClearCalendar`].addEventListener(
+                    'click', (evt: Event) => {
                 evt.preventDefault();
                 this.value = null;
             });
-        } else if (this._info.type === 'File') {
+        } else if (this.#info.type === 'File') {
             this.field('Accept', '');
-            if ('accept' in this._info)
-                this.field('Accept', this._info.accept);
-        } else if (this._info.type === 'Input' || this._info.type === 'TextArea') {
+            if ('accept' in this.#info)
+                this.field('Accept', this.#info.accept);
+        } else if (this.#info.type === 'Input' || this.#info.type === 'TextArea') {
             // this.value = '';
 
             this.elem.addEventListener('change', onChange);
             this.elem.addEventListener('keyup', onChange);
 
             // this.elem.setAttribute('value', '');
-        } else if (this._info.type === 'Radio') {
-            console.log(this.getLayoutElem('Field'));
-            this.getLayoutElem('Field')((elem) => {
+        } else if (this.#info.type === 'Radio') {
+            this.getLayoutElem('Field')((elem: Element) => {
                 elem.addEventListener('change', onChange);
             });
-            // this._layout.$elems.each('field', function(elem) {
+            // this.#layout.$elems.each('field', function(elem) {
             //     elem.addEventListener('change', onChange);
             // });
-        } else if (this._info.type === 'Select' || this._info.type === 'file') {
+        } else if (this.#info.type === 'Select' || this.#info.type === 'file') {
             this.elem.addEventListener('change', onChange);
         }
     }
 
-    setDisabled(disabled)
-    {
-        js0.args(arguments, 'boolean');
-
-        let elems = this._layout.$elems.$getAll(`${this._fullName}_Field`);
+    setDisabled(disabled: boolean): void {
+        let elems = this.#layout.$elems.$getAll(`${this.#fullName}_Field`);
 
         for (let elem of elems) {
             if (disabled)
@@ -295,13 +290,11 @@ export default class Field
         }
     }
 
-    setValidator(validator)
-    {
-        this._layout.$fields[`${this._fullName}_Validator`] = {
+    setValidator(validator: FieldValidator): void {
+        this.#layout.$fields[`${this.#fullName}_Validator`] = {
             errors: 'errors' in validator ? validator.errors : [],
             fieldClass: validator.valid ? '' : 'is-invalid',
             divClass: '',
         }
     }
-
 }

@@ -1,4 +1,8 @@
 {
   "name": "spk-forms",
-  "version": "0.0.1"
+  "type": "module",
+  "version": "0.0.1",
+  "devDependencies": {
+    "typescript": "7.0.*"
+  }
 }

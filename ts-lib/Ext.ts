@@ -1,34 +1,21 @@
-'use strict';
+import { Layout, SpockyExt } from "spocky";
+import $layouts from "../$layouts/index.ts";
 
-const
-    abTextParser = require('ab-text-parser'),
-    js0 = require('js0'),
-    spocky = require('spocky'),
-
-    $layouts = require('./$layouts'),
-    spkForms = require('.');
-;
-
-export default class Ext extends spocky.Ext
-{
-
-    constructor()
-    { super();
-        spkForms.extInitialized = true;
+export default class Ext extends SpockyExt {
+    constructor() { 
+        super();
     }
 
-    onParseLayoutNode(layoutNode)
-    {
+    onParseLayoutNode(layoutNode: any): void {
         this._onParseLayoutNode_Field(layoutNode);
         this._onParseLayoutNode_Message(layoutNode);
     }
 
 
-    _getFieldInfo(layoutNode)
-    {
-        let dataTypes = [ 'input-type', 'label', 'placeholder', 'label-class', 
-                'field-class' ];
-        let data = {};
+    _getFieldInfo(layoutNode: any): string {
+        // let dataTypes = [ 'input-type', 'label', 'placeholder', 'label-class', 
+        //         'field-class' ];
+        let data: {[attrName: string]: string} = {};
 
         for (let attrName in layoutNode.attribs) {
             data[attrName] = layoutNode.attribs[attrName]
@@ -41,8 +28,7 @@ export default class Ext extends spocky.Ext
         return JSON.stringify(data);
     }
 
-    _getFieldLayoutContent(fieldName)
-    {
+    _getFieldLayoutContent(fieldName: string): Array<any> {
         let layoutName = `${fieldName}Field`;
 
         if (layoutName === 'DateTimeField')
@@ -51,11 +37,10 @@ export default class Ext extends spocky.Ext
         if (!(layoutName in $layouts))
             throw new Error(`Field type '${fieldName}' does not exist.`);
 
-        return $layouts[layoutName].Content;
+        return $layouts.getContent(layoutName);
     }
 
-    _onParseLayoutNode_Field(layoutNode)
-    {
+    _onParseLayoutNode_Field(layoutNode: any): void {
         if (layoutNode.type !== 'spk-form-field')
             return;
 
@@ -107,15 +92,14 @@ export default class Ext extends spocky.Ext
             );
         }
 
-        spocky.Layout.Replace(layoutContent, replaceArr);
+        Layout.Replace(layoutContent, replaceArr);
 
         layoutNode.content = [];
         for (let newLayoutNode of layoutContent)
             layoutNode.content.push(newLayoutNode);
     }
 
-    _onParseLayoutNode_Message(layoutNode)
-    {
+    _onParseLayoutNode_Message(layoutNode: any): void {
         if (layoutNode.type !== 'spk-form-message')
             return;
 
@@ -133,11 +117,10 @@ export default class Ext extends spocky.Ext
             [ '{{formName}}', formName ],
             [ '{{fullFormName}}', fullFormName ],
         ];
-        spocky.Layout.Replace(layoutContent, replaceArr);
+        Layout.Replace(layoutContent, replaceArr);
 
         layoutNode.content = [];
         for (let newLayoutNode of layoutContent)
             layoutNode.content.push(newLayoutNode);
     }
-
 }
