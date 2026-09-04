@@ -2,8 +2,10 @@ import "./Ext.ts";
 import abDate from "ab-date";
 import spkForms from "./index.js";
 import type { Layout } from "spocky";
-import { ts0Assert, ts0NotSet } from "@allblue/ts0";
+import ts0, { ts0Assert } from "@allblue/ts0";
 import type { FieldValidator } from "./ts-types.ts";
+/* @ab-ignore */
+import $ from "jquery";
 
 
 export default class Field {
@@ -93,7 +95,6 @@ export default class Field {
             else {
                 // @ts-expect-error
                 let m = moment(value * 1000).utcOffset(0);
-                // @ts-expect-error
                 $(this.elem).data('DateTimePicker').date(m);
             }
         } else if (this.#info.type === 'Message') {
@@ -196,8 +197,8 @@ export default class Field {
         }
     }
 
-    field(fieldName: string, value: any = ts0NotSet): any {
-        if (value === ts0NotSet)
+    field(fieldName: string, value: any = ts0.notSet): any {
+        if (value === ts0.notSet)
             return this.#layout.$fields[`${this.fullName}_${fieldName}`];
         else
             this.#layout.$fields[`${this.fullName}_${fieldName}`] = value;
@@ -230,8 +231,8 @@ export default class Field {
                 format = abDate.formats_Time;
 
             /* Initialize `date` field. */
-            // @ts-expect-error
             $(this.elem)
+                // @ts-expect-error
                 .datetimepicker( {
                     format: format,
                     showTodayButton: this.#info.type !== 'Time',
@@ -240,10 +241,10 @@ export default class Field {
                     ignoreReadonly: true,
                 })
                 .on('dp.show', (evt: Event) => {
-                    // @ts-expect-error
-                    if($(this.elem).data("DateTimePicker").date() === null)
+                    if($(this.elem).data("DateTimePicker").date() === null) {
                         // @ts-expect-error
                         $(this.elem).data("DateTimePicker").date(moment());
+                    }
                 })
                 .on('dp.hide', (evt: Event) => {
                     this.elem.setAttribute('value', this.elem.value);

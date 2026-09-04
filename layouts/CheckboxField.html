@@ -7,9 +7,9 @@
             placeholder="{{fieldPlaceholder}}" />
     <label _show="{{fullFieldName}}_Label" for="{{fullFieldName}}"
             class="form-check-label {{labelClass}}">
-        <div _repeat="{{fullFieldName}}_Validator.errors:errorMessage" class="invalid-feedback">
-            $errorMessage
-        </div>
         <span _field="?({{fieldLabel}})" />            
     </label>
+    <div _repeat="{{fullFieldName}}_Validator.errors:errorMessage" class="invalid-feedback">
+        $errorMessage
+    </div>
  </div>

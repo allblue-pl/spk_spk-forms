@@ -3,6 +3,6 @@
   "type": "module",
   "version": "0.0.1",
   "devDependencies": {
-    "typescript": "7.0.*"
+    "@types/jquery": "4.0.*"
   }
 }

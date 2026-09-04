@@ -5,15 +5,16 @@ import spkForms from "./index.ts";
 import Field from "./Field.ts";
 
 import { type FormValidator } from "./ts-types.ts";
+import type { TS0RawObject } from "@allblue/ts0";
 
 export default class Form {
-    #fields: {[fieldName: string]: any};
+    #fields: {[fieldName: string]: Field};
     #formName: string;
     #fullFormName: string;
     #layout: Layout;
 
 
-    get fields(): {[fieldName: string]: any} {
+    get fields(): {[fieldName: string]: Field} {
         return this.#fields;
     }
 
@@ -89,7 +90,7 @@ export default class Form {
             this.#fields[fieldName].clearValidator();
     }
 
-    getField(fieldName: string): any {
+    getField(fieldName: string): Field {
         if (!(fieldName in this.#fields))
             throw new Error(`Field '${fieldName}' does not exist.`);
 
@@ -115,8 +116,8 @@ export default class Form {
         return values;
     }
 
-    getValues(): {[fieldName: string]: any} {
-        let values: {[fieldName: string]: any} = {};
+    getValues(): TS0RawObject {
+        let values: TS0RawObject = {};
 
         for (let fieldName in this.#fields) {
             if (this.#fields[fieldName].info.type === 'Message')

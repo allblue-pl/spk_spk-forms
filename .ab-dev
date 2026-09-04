@@ -5,5 +5,11 @@
         "ab-date": "https://github.com/allblue-pl/js_ab-date",
         "ab-text-parser": "https://github.com/allblue-pl/js_ab-text-parser",
         "spocky": "https://github.com/allblue-pl/js_spocky"
+    },
+    "abTS": {
+        "tsconfig": ".",
+        "libs": [
+          "."
+        ]
     }
 }

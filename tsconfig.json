@@ -3,9 +3,10 @@
         "allowImportingTsExtensions": true,
         "declaration": true,
         "declarationDir": "./ts-types",
-        "emitDeclarationOnly": true,
         "erasableSyntaxOnly": true,
         "module": "nodenext",
+        "noEmit": true,
+        "noImplicitOverride": true,
         "outDir": ".",
         "rewriteRelativeImportExtensions": true,
         "rootDir": ".",
@@ -15,13 +16,13 @@
             "./node_modules/@types",
             "./node_modules/spocky/ts-types"
         ],
-        "types": [ "spocky" ],
+        "types": [ "jquery", "spocky" ],
         "useDefineForClassFields": true,
         "verbatimModuleSyntax": true
     },
     "exclude": [
-        "./index.ts",
         "./lib/**/*",
-        "./ts-types/**/*"
+        "./ts-types/**/*",
+        "./tests/**/*"
     ]
 }
