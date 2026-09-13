@@ -57,7 +57,7 @@ export default class Form {
                     .replace(/\\\$/g, '$');
             }
 
-            this.#fields[fieldInfo.name] = new Field(layout, fieldInfo);
+            this.#fields[fieldInfo.name] = new Field(this, layout, fieldInfo);
         }
     }
 

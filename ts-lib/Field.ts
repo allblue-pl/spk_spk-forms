@@ -6,10 +6,12 @@ import ts0, { ts0Assert } from "@allblue/ts0";
 import type { FieldValidator } from "./ts-types.ts";
 /* @ab-ignore */
 import $ from "jquery";
+import type Form from "./Form.ts";
 
 
 export default class Field {
     #layout: Layout;
+    #form: Form;
     #fullName: string;
     #info: {[fieldName: string]: any};
 
@@ -170,7 +172,8 @@ export default class Field {
         // }
     }
 
-    constructor(layout: Layout, fieldInfo: {[name: string]: any}) {
+    constructor(form: Form, layout: Layout, fieldInfo: {[name: string]: any}) {
+        this.#form = form;
         this.#layout = layout;
         this.#info = fieldInfo;
 
@@ -195,6 +198,7 @@ export default class Field {
             fieldClass: '',
             divClass: '',
         }
+        this.#form.clearMessage();
     }
 
     field(fieldName: string, value: any = ts0.notSet): any {

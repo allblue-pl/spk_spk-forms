@@ -5,7 +5,7 @@
             class="form-label {{labelClass}}">
         <span _field="?({{fieldLabel}})" />
     </label>
-    <div class="{{fieldClass}}">
+    <div class="{{fieldClass}} ${{fullFieldName}}_Validator.fieldClass">
         <input _elem="{{fullFieldName}}_Field"
                 type="{{inputType}}" id="{{fullFieldName}}" name="{{fieldName}}"
                 class="form-control ${{fullFieldName}}_Validator.fieldClass"
