@@ -20,7 +20,7 @@ export const p_FieldValidator = ts0.TPreset({
 export type FormValidator = {
     errors: Array<string>,
     fields: {[fieldName: string]: FieldValidator},
-    state: string,
+state: string,
     valid: boolean,
 };
 export const p_FormValidator = ts0.TPreset({

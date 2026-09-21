@@ -10,6 +10,7 @@ import type Form from "./Form.ts";
 
 
 export default class Field {
+    #disabled: boolean;
     #layout: Layout;
     #form: Form;
     #fullName: string;
@@ -177,6 +178,8 @@ export default class Field {
         this.#layout = layout;
         this.#info = fieldInfo;
 
+        this.#disabled = false;
+
         this.#fullName = `spkForms_${fieldInfo.form}_Fields_${fieldInfo.name}`;
 
         let fields: {[fieldName: string]: string} = {};
@@ -259,7 +262,8 @@ export default class Field {
             this.#layout.$elems[`${this.#fullName}_ClearCalendar`].addEventListener(
                     'click', (evt: Event) => {
                 evt.preventDefault();
-                this.value = null;
+                if (!this.#disabled)
+                    this.value = null;
             });
         } else if (this.#info.type === 'File') {
             this.field('Accept', '');
@@ -285,6 +289,8 @@ export default class Field {
     }
 
     setDisabled(disabled: boolean): void {
+        this.#disabled = disabled;
+
         let elems = this.#layout.$elems.$getAll(`${this.#fullName}_Field`);
 
         for (let elem of elems) {
