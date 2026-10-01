@@ -132,12 +132,39 @@ export default class Form {
             values[fieldName] = this.#fields[fieldName].value;
         }
 
-        return values;
+        return new Proxy(values, {
+            get(target: TS0RawObject, prop: string) {
+                if (!(prop in target))
+                    throw new Error(`Form value '${prop}' does not exist.`);
+
+                return target[prop];
+            },
+        });
     }
 
-    setDisabled(disabled: boolean): void {
-        for (let fieldName in this.#fields)
-            this.#fields[fieldName].setDisabled(disabled);
+    setDisabled(disabled: boolean, fieldNames: Array<string>|null = null): void {
+        if (fieldNames === null) {
+            for (let fieldName in this.#fields)
+                this.#fields[fieldName].setDisabled(disabled);
+        } else {
+            for (let fieldName of fieldNames) {
+                if (!(fieldName in this.#fields))
+                    throw new Error(`Field '${fieldName}' does not exist.`);
+                this.#fields[fieldName].setDisabled(disabled);
+            }
+        }
+    }
+
+    setDisabled_Ignore(disabled: boolean, ignoredFieldNames: Array<string>): void {
+        for (let fieldName of ignoredFieldNames) {
+            if (!(fieldName in this.#fields))
+                throw new Error(`Field '${fieldName}' does not exist.`);
+        }
+
+        for (let fieldName in this.#fields) {
+            if (!(ignoredFieldNames.includes(fieldName)))
+                this.#fields[fieldName].setDisabled(disabled);
+        }
     }
 
     setMessage(message: string, messageClass: string): void {

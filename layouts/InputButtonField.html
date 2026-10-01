@@ -1,0 +1,25 @@
+
+<div class="{{divClass}} ${{fullFieldName}}_Validator.divClass" 
+        _data-spk-field="{{formName}}:{{fieldInfo}}">
+    <label _show="?({{fieldLabel}} !== '')" for="{{fullFieldName}}"
+            class="form-label {{labelClass}}">
+        <span _field="?({{fieldLabel}})" />
+    </label>
+    <div class="{{fieldClass}} ${{fullFieldName}}_Validator.fieldClass">
+        <div class="input-group ${{fullFieldName}}_Validator.fieldClass">
+            <input _elem="{{fullFieldName}}_Field"
+                    type="{{inputType}}" id="{{fullFieldName}}" name="{{fieldName}}"
+                    class="form-control ${{fullFieldName}}_Validator.fieldClass"
+                    placeholder="{{fieldPlaceholder}}"
+                    autocomplete="off" />
+            <button _elem="{{fullFieldName}}_Button" class="btn btn-outline-secondary" 
+                    type="button">
+                <i class="{{buttonIcon}}" />
+            </button>
+        </div>
+        <div _repeat="{{fullFieldName}}_Validator.errors:errorMessage"
+                class="invalid-feedback">
+            $errorMessage
+        </div>
+    </div>
+</div>

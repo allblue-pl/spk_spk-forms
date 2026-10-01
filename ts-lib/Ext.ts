@@ -85,10 +85,25 @@ export default class Ext extends SpockyExt {
         ];
 
         /* Special */
+        if (layoutNode.attribs.type[0] === 'Checkbox' || 
+                layoutNode.attribs.type[0] === 'Input') {
+            replaceArr.push(
+                [ '{{role}}', 'role' in layoutNode.attribs ? 
+                        layoutNode.attribs['role'].join('') : 'text' ]
+            );
+        }
+        
         if (layoutNode.attribs.type[0] === 'Input') {
             replaceArr.push(
                 [ '{{inputType}}', 'input-type' in layoutNode.attribs ? 
                         layoutNode.attribs['input-type'].join('') : 'text' ]
+            );
+        }
+
+        if (layoutNode.attribs.type[0] === 'InputButton') {
+            replaceArr.push(
+                [ '{{buttonIcon}}', 'button-icon' in layoutNode.attribs ? 
+                        layoutNode.attribs['button-icon'].join('') : 'fas fa-question' ]
             );
         }
 
